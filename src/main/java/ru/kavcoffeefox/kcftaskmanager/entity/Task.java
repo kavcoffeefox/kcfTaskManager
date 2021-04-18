@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "task")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @ToString
 @Builder
 public class Task {
