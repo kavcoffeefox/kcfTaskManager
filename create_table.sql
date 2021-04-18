@@ -19,9 +19,9 @@ create table task(
                      complete
 );
 
-CREATE TABLE task_executors(
-                               task_id INTEGER,
-                               people_id INTEGER,
-                               FOREIGN KEY(task_id) REFERENCES task(id) ON DELETE CASCADE,
-                               FOREIGN KEY(people_id) REFERENCES people(id) ON DELETE CASCADE
+CREATE TABLE task_executor(
+                       task_id INTEGER,
+                       people_id INTEGER,
+                       FOREIGN KEY(task_id) REFERENCES task(id) ON DELETE CASCADE,
+                       FOREIGN KEY(people_id) REFERENCES people(id) ON DELETE CASCADE
 );
