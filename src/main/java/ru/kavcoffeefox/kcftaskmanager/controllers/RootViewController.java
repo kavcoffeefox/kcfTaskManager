@@ -10,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.kavcoffeefox.kcftaskmanager.Main;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
@@ -84,7 +83,7 @@ public class RootViewController extends AbstractController {
                 Task task = new Task();
                 try {
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(Main.class.getResource("/view/modalwindows/TaskView.fxml"));
+                    loader.setLocation(RootViewController.class.getResource("/view/modalwindows/TaskView.fxml"));
                     AnchorPane page = loader.load();
 
                     Stage dialogStage = new Stage();
@@ -107,7 +106,7 @@ public class RootViewController extends AbstractController {
             case "edittask" -> {
                 try {
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(Main.class.getResource("/view/modalwindows/TaskView.fxml"));
+                    loader.setLocation(RootViewController.class.getResource("/view/modalwindows/TaskView.fxml"));
                     AnchorPane page = loader.load();
 
                     Stage dialogStage = new Stage();
