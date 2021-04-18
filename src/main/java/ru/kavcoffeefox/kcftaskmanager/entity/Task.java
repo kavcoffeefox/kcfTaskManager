@@ -1,6 +1,5 @@
 package ru.kavcoffeefox.kcftaskmanager.entity;
 
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +13,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-@Builder
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +36,8 @@ public class Task {
     CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "task_executor",
-            joinColumns = @JoinColumn(name = "person_id "),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id")
     )
     @ToString.Exclude
     private List<Person> executors;
@@ -51,4 +49,12 @@ public class Task {
         executors.add(executor);
     }
 
+    public Task(String name, int period, LocalDate deadline, String description, String type, boolean complete) {
+        this.name = name;
+        this.period = period;
+        this.deadline = deadline;
+        this.description = description;
+        this.type = type;
+        this.complete = complete;
+    }
 }
