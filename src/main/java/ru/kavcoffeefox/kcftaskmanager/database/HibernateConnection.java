@@ -7,7 +7,7 @@ import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 
 public class HibernateConnection {
     private volatile static HibernateConnection INSTANCE;
-    private volatile static SessionFactory factory;
+    private final SessionFactory factory;
 
     private HibernateConnection(){
         factory = new Configuration()
@@ -29,5 +29,9 @@ public class HibernateConnection {
 
     public SessionFactory getFactory() {
         return factory;
+    }
+
+    public void closeFactory(){
+        factory.close();
     }
 }
