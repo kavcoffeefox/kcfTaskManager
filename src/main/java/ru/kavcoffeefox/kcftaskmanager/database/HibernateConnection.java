@@ -27,7 +27,7 @@ public class HibernateConnection {
         return INSTANCE;
     }
 
-    public static SessionFactory getFactory() {
+    public SessionFactory getFactory() {
         return factory;
     }
 }
