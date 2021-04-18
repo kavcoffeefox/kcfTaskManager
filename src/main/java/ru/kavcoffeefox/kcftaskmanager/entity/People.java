@@ -2,8 +2,7 @@ package ru.kavcoffeefox.kcftaskmanager.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity @Table(name = "people")
@@ -11,13 +10,24 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class People {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     @ToString.Exclude private int id;
+    @Column(name = "firstName")
     private  String firstName;
+    @Column(name = "lastName")
     private  String lastName;
+    @Column(name = "patronymic")
     private  String patronymic;
+    @Column(name = "birthDay")
     private LocalDate birthDay;
+    @Column(name = "department")
     private  String department;
+    @Column(name = "position")
     private  String position;
+    @Column(name = "rank")
     private  String rank;
 
     public People(String firstName, String lastName, String patronymic, LocalDate birthDay, String department, String position, String rank) {
