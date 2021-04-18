@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "people")
+@Table(name = "person")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 @Builder
-public class People {
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class People {
     @JoinTable(
             name = "task_executor",
             joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "people_id")
+            inverseJoinColumns = @JoinColumn(name = "person_id")
     )
     @ToString.Exclude
     private List<Task> tasks;

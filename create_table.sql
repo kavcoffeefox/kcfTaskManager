@@ -1,4 +1,4 @@
-create table people(
+create table person(
                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                        firstName TEXT,
                        lastName TEXT,
@@ -21,7 +21,7 @@ create table task(
 
 CREATE TABLE task_executor(
                        task_id INTEGER,
-                       people_id INTEGER,
+                       person_id INTEGER,
                        FOREIGN KEY(task_id) REFERENCES task(id) ON DELETE CASCADE,
-                       FOREIGN KEY(people_id) REFERENCES people(id) ON DELETE CASCADE
+                       FOREIGN KEY(person_id) REFERENCES person(id) ON DELETE CASCADE
 );

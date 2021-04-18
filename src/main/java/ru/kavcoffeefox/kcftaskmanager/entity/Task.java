@@ -38,13 +38,13 @@ public class Task {
     CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "task_executor",
-            joinColumns = @JoinColumn(name = "people_id "),
+            joinColumns = @JoinColumn(name = "person_id "),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     @ToString.Exclude
-    private List<People> executors;
+    private List<Person> executors;
 
-    public void addExecutor(People executor) {
+    public void addExecutor(Person executor) {
         if (executors == null) {
             executors = new ArrayList<>();
         }
