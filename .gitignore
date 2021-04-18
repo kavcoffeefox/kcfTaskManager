@@ -1,3 +1,7 @@
+.idea
+*.db
+*.mysql
+
 # Compiled class file
 *.class
 
