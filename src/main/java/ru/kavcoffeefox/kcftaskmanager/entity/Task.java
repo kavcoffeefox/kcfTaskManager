@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
+@Builder
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
