@@ -34,7 +34,7 @@ public class Task {
     private boolean complete;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-    CascadeType.DETACH, CascadeType.REFRESH})
+    CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "task_executor",
             joinColumns = @JoinColumn(name = "task_id"),
