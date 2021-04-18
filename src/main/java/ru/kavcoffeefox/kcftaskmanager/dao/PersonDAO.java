@@ -5,7 +5,7 @@ import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import java.util.List;
 
 public interface PersonDAO {
-    boolean addPerson();
+    boolean addPerson(Person person);
 
     Person getPerson(Integer id);
 
