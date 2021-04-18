@@ -1,12 +1,12 @@
 create table person(
                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                       firstName TEXT,
-                       lastName TEXT,
-                       patronymic TEXT,
-                       birthDay TEXT,
-                       department TEXT,
-                       position TEXT,
-                       rank TEXT
+                       firstName,
+                       lastName,
+                       patronymic,
+                       birthDay,
+                       department,
+                       position,
+                       rank
 );
 
 create table task(
