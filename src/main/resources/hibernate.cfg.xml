@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <property name="connection.url">jdbc:sqlite:mydb.db</property>
+        <property name="connection.url">jdbc:sqlite:database.sqlite</property>
 
         <property name="current_session_context_class">thread</property>
         <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
