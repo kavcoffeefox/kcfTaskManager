@@ -7,15 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -28,40 +25,6 @@ public class RootViewController extends AbstractController {
 
     private TaskManager taskManager;
 
-    @FXML
-    private void handleShowSettings() {
-    }
-
-    @FXML
-    private void handleOpen() {
-        FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("XML files *.xml", "*.xml");
-        fileChooser.getExtensionFilters().add(extensionFilter);
-
-        File file = fileChooser.showOpenDialog(this.getMainStage());
-
-        if (file != null) {
-            System.out.println(file);
-        }
-    }
-
-    @FXML
-    private void handleSave() {
-        System.out.println("save");
-    }
-
-    @FXML
-    private void handleSaveAs() {
-        FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("XML files *.xml", "*.xml");
-        fileChooser.getExtensionFilters().add(extensionFilter);
-
-        File file = fileChooser.showSaveDialog(this.getMainStage());
-        System.out.println(file);
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
