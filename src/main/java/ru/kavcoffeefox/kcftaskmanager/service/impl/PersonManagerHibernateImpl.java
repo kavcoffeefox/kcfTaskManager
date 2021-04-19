@@ -41,4 +41,14 @@ public class PersonManagerHibernateImpl implements Manager<Person, Integer> {
     public List<Person> getAll() {
         return personDAO.getAllPerson();
     }
+
+    public static PersonManagerHibernateImpl getInstance() {
+        if (INSTANCE == null)
+            synchronized (PersonManagerHibernateImpl.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new PersonManagerHibernateImpl();
+                }
+            }
+        return INSTANCE;
+    }
 }
