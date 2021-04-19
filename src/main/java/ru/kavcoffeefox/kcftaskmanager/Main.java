@@ -1,5 +1,6 @@
 package ru.kavcoffeefox.kcftaskmanager;
 
+import ru.kavcoffeefox.kcftaskmanager.controllers.TabPersonController;
 import ru.kavcoffeefox.kcftaskmanager.controllers.TabTableController;
 import ru.kavcoffeefox.kcftaskmanager.controllers.TabWeeksController;
 
@@ -60,6 +61,7 @@ public class Main extends Application {
             logger.info("Main tabs view showed!");
             showTabWorkViewTabWeek();
             showTabWorkTableTab();
+            showTabPersonViewTab();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,6 +93,22 @@ public class Main extends Application {
             tabPane.getTabs().get(0).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabTableController tabTableController = loader.getController();
+            logger.info("Tab with weeks view is showed!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showTabPersonViewTab() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/view/tabs/TabPersonView.fxml"));
+            BorderPane tabTableView = loader.load();
+
+            TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
+            tabPane.getTabs().get(3).setContent(tabTableView);
+            BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
+            TabPersonController tabPersonController = loader.getController();
             logger.info("Tab with weeks view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
