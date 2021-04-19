@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="763.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.kavcoffeefox.kcftaskmanager.controllers.TabPersonController">
+    <TableView layoutX="131.0" layoutY="39.0" prefHeight="400.0" prefWidth="714.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <columns>
+          <TableColumn prefWidth="75.0" text="Фамилия"/>
+          <TableColumn prefWidth="75.0" text="Имя"/>
+          <TableColumn prefWidth="75.0" text="Отчество"/>
+          <TableColumn prefWidth="132.0" text="Дата рождения"/>
+          <TableColumn prefWidth="75.0" text="Отдел"/>
+          <TableColumn prefWidth="100.0" text="Должность"/>
+          <TableColumn prefWidth="76.0" text="Ранг"/>
+          <TableColumn prefWidth="154.0" text="Доп. информация"/>
+      </columns>
+    </TableView>
+</AnchorPane>
