@@ -15,10 +15,9 @@ import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class TabTableController extends AbstractController {
-    private Tooltip tooltip;
+    private final Tooltip tooltip;
 
     @FXML
     private TableView<Task> taskTableView;
