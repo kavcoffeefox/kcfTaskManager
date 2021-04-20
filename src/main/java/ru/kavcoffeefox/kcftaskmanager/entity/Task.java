@@ -41,12 +41,9 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "person_id")
     )
     @ToString.Exclude
-    private List<Person> executors;
+    private List<Person> executors = new ArrayList<>();
 
     public void addExecutor(Person executor) {
-        if (executors == null) {
-            executors = new ArrayList<>();
-        }
         executors.add(executor);
     }
 
