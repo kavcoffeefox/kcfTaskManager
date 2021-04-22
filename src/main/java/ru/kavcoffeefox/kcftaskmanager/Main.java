@@ -1,5 +1,6 @@
 package ru.kavcoffeefox.kcftaskmanager;
 
+import ru.kavcoffeefox.kcftaskmanager.controllers.TabDocumentViewController;
 import ru.kavcoffeefox.kcftaskmanager.controllers.TabPersonController;
 import ru.kavcoffeefox.kcftaskmanager.controllers.TabTableController;
 import ru.kavcoffeefox.kcftaskmanager.controllers.TabWeeksController;
@@ -62,6 +63,7 @@ public class Main extends Application {
             showTabWorkViewTabWeek();
             showTabWorkTableTab();
             showTabPersonViewTab();
+            showTabDocumentViewTab();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,7 +95,7 @@ public class Main extends Application {
             tabPane.getTabs().get(0).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabTableController tabTableController = loader.getController();
-            logger.info("Tab with weeks view is showed!!");
+            logger.info("Tab with table task view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,14 +108,31 @@ public class Main extends Application {
             BorderPane tabTableView = loader.load();
 
             TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
-            tabPane.getTabs().get(3).setContent(tabTableView);
+            tabPane.getTabs().get(2).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabPersonController tabPersonController = loader.getController();
-            logger.info("Tab with weeks view is showed!!");
+            logger.info("Tab with person view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void showTabDocumentViewTab() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/view/tabs/TabDocumentView.fxml"));
+            BorderPane tabTableView = loader.load();
+
+            TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
+            tabPane.getTabs().get(3).setContent(tabTableView);
+            BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
+            TabDocumentViewController tabDocumentViewController = loader.getController();
+            logger.info("Tab with document view is showed!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public Stage getPrimaryStage() {
         return primaryStage;
