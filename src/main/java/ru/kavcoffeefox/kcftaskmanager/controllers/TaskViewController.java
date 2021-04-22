@@ -4,12 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.controlsfx.control.SearchableComboBox;
+import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
+import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
 
 import java.net.URL;
-import java.util.Locale;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class TaskViewController extends AbstractController {
     private Stage dialogStage;
@@ -22,15 +24,14 @@ public class TaskViewController extends AbstractController {
     @FXML
     private TextField textEditPeriod;
     @FXML
-    private TextField textFieldPeople;
-    @FXML
     private DatePicker datePickerDeadline;
 
     @FXML
     private TextArea textAreaDescription;
     @FXML
-    private ListView<String> listPeople;
-
+    private ListView<Person> listPeople;
+    @FXML
+    private SearchableComboBox<Person> scbExecutors;
 
 
     @Override
@@ -45,10 +46,21 @@ public class TaskViewController extends AbstractController {
 
         contextMenu.getItems().addAll(item1);
         this.listPeople.setContextMenu(contextMenu);
+
+        scbExecutors.setItems(FXCollections.observableArrayList(PersonManagerHibernateImpl.getInstance().getAll()));
+        scbExecutors.setMaxWidth(Double.MAX_VALUE);
+
+        listPeople.setCellFactory(cell -> new PersonListCell());
+        scbExecutors.setCellFactory(cell -> new PersonListCell());
+
     }
 
     @FXML
-    private void handleAddWorker(){
+    private void handleAddExecutor(){
+        listPeople.getItems().add(scbExecutors.getValue());
+    }
+
+    @FXML void handleNewPerson(){
 
     }
 
@@ -60,7 +72,7 @@ public class TaskViewController extends AbstractController {
             task.setPeriod(Integer.parseInt(textEditPeriod.getText()));
             task.setDescription(textAreaDescription.getText());
             task.setDeadline(datePickerDeadline.getValue());
-//            task.setExecutors(listPeople.getItems().stream().collect(Collectors.toList()));
+            task.setExecutors(new ArrayList<>(listPeople.getItems()));
 
             dialogStage.close();
         }
@@ -68,6 +80,7 @@ public class TaskViewController extends AbstractController {
 
     @FXML
     private void handleCansel(){
+        this.task = null;
         dialogStage.close();
     }
 
@@ -81,12 +94,7 @@ public class TaskViewController extends AbstractController {
 
         textFieldTaskName.setText(task.getName());
         datePickerDeadline.setValue(task.getDeadline());
-        listPeople.setItems(FXCollections.observableArrayList(task.getExecutors().stream().map(person -> person.getFirstName()
-                + " "
-                + person.getLastName().toUpperCase(Locale.ROOT).charAt(1)
-                + "."
-                + person.getPatronymic().toUpperCase(Locale.ROOT).charAt(1)
-                +(".\n")).collect(Collectors.toList())));
+        listPeople.setItems(FXCollections.observableArrayList(task.getExecutors()));
         textFieldTaskType.setText(task.getType());
         textEditPeriod.setText(String.valueOf(task.getPeriod()));
         textAreaDescription.setText(task.getDescription());
@@ -96,5 +104,18 @@ public class TaskViewController extends AbstractController {
         String errorMessage = " ";
 
         return true;
+    }
+
+        class PersonListCell extends ListCell<Person> {
+
+        @Override
+        protected void updateItem(Person person, boolean b) {
+            super.updateItem(person, b);
+            if (b || person == null) {
+                setText("");
+            } else {
+                setText(person.getFirstName() + person.getLastName());
+            }
+        }
     }
 }
