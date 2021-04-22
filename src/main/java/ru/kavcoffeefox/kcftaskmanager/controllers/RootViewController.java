@@ -81,7 +81,8 @@ public class RootViewController extends AbstractController {
 
                     TaskViewController controller = loader.getController();
                     controller.setDialogStage(dialogStage);
-                    controller.setTask(taskManager.getCurrentTask());
+                    if(taskManager.getCurrentTask() != null)
+                        controller.setTask(taskManager.getCurrentTask());
 
                     dialogStage.showAndWait();
                 } catch (IOException e) {
@@ -90,10 +91,15 @@ public class RootViewController extends AbstractController {
                 taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
             }
             case "completetask" -> {
-                taskManager.getCurrentTask().setComplete(true);
-                taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
+                if (taskManager.getCurrentTask() != null) {
+                    taskManager.getCurrentTask().setComplete(true);
+                    taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
+                }
             }
-            case "deletetask" -> taskManager.delete(taskManager.getCurrentTask().getId());
+            case "deletetask" -> {
+                if (taskManager.getCurrentTask() != null)
+                    taskManager.delete(taskManager.getCurrentTask().getId());
+            }
         }
 
     }
