@@ -5,11 +5,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.control.*;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 
-import java.awt.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class PersonViewController extends AbstractController{
@@ -42,13 +41,13 @@ public class PersonViewController extends AbstractController{
     @FXML
     private void handleSave(){
         if (isInputValid()){
-            person.setFirstName(firstName.getText());
-            person.setLastName(lastName.getText());
-            person.setPatronymic(patronymic.getText());
-            person.setBirthDay(birthDay.getValue());
-            person.setDepartment(department.getText());
-            person.setPosition(position.getText());
-            person.setRank(rank.getText());
+            person.setFirstName(firstName.getText() == null ? "": firstName.getText());
+            person.setLastName(lastName.getText() == null ? "": lastName.getText());
+            person.setPatronymic(patronymic.getText() == null ? "": patronymic.getText());
+            person.setBirthDay(birthDay.getValue() == null ? LocalDate.now(): birthDay.getValue());
+            person.setDepartment(department.getText() == null ? "": department.getText());
+            person.setPosition(position.getText() == null ? "": position.getText());
+            person.setRank(rank.getText() == null ? "": rank.getText());
 
             dialogStage.close();
         }
@@ -64,7 +63,16 @@ public class PersonViewController extends AbstractController{
     }
 
     public void setPerson(Person person){
+
         this.person = person;
+        firstName.setText(person.getFirstName());
+        lastName.setText(person.getLastName());
+        patronymic.setText(person.getPatronymic());
+        birthDay.setValue(person.getBirthDay());
+        department.setText(person.getDepartment());
+        position.setText(person.getPosition());
+        rank.setText(person.getRank());
+//        description;
     }
 
     private boolean isInputValid(){
