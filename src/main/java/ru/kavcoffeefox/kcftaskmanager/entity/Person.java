@@ -11,7 +11,8 @@ import java.util.List;
 @Table(name = "person")
 @Getter
 @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Builder
 public class Person {
@@ -34,8 +35,10 @@ public class Person {
     private String position;
     @Column(name = "rank")
     private String rank;
+    @Column(name = "description")
+    private String description;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "task_executor",
@@ -43,14 +46,23 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     @ToString.Exclude
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
+//    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+//            CascadeType.DETACH, CascadeType.REFRESH})
+//    @JoinTable(name = "document_person",
+//            joinColumns = @JoinColumn(name = "person_id"),
+//            inverseJoinColumns = @JoinColumn(name = "document_id"))
+//    @ToString.Exclude
+//    private List<Document> documents = new ArrayList<>();
 
-    public void addTask(Task task) {
-        if (tasks == null) {
-            tasks = new ArrayList<>();
-        }
-        tasks.add(task);
-    }
+//    public void addTask(Task task) {
+//        tasks.add(task);
+//    }
+//
+//    public void addDocument(Document document) {
+//        documents.add(document);
+//    }
+
 
     public Person(String firstName, String lastName, String patronymic, LocalDate birthDay, String department, String position, String rank) {
         this.firstName = firstName;
