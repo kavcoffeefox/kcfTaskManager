@@ -15,7 +15,7 @@ public class TaskDAOHibernateImpl implements TaskDAO {
     public boolean addTask(Task task) {
         try (Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()) {
             session.beginTransaction();
-            session.persist(task);
+            session.merge(task);
             session.getTransaction().commit();
         } catch (Exception e) {
             log.error(e.getMessage());
