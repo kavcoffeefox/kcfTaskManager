@@ -46,6 +46,19 @@ public class SimpleDay extends BorderPane {
             }
         });
 
+        tasksList.setCellFactory(cell -> new ListCell<>() {
+            @Override
+            protected void updateItem(Task task, boolean b) {
+                super.updateItem(task, b);
+
+                if (b || task == null) {
+                    setText(" ");
+                } else {
+                    setText(task.getName());
+                }
+            }
+        });
+
         tasksList.setOnMouseExited(event -> tooltip.hide());
 
         ContextMenu contextMenu = new ContextMenu();
