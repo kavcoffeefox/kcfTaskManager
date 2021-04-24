@@ -110,7 +110,7 @@ public class Main extends Application {
             BorderPane tabTableView = loader.load();
 
             TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
-            tabPane.getTabs().get(2).setContent(tabTableView);
+            tabPane.getTabs().get(3).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabPersonController tabPersonController = loader.getController();
             tabPersonController.setMainStage(this.primaryStage);
@@ -127,7 +127,7 @@ public class Main extends Application {
             BorderPane tabTableView = loader.load();
 
             TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
-            tabPane.getTabs().get(3).setContent(tabTableView);
+            tabPane.getTabs().get(2).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabDocumentViewController tabDocumentViewController = loader.getController();
             tabDocumentViewController.setMainStage(this.primaryStage);
