@@ -79,6 +79,7 @@ public class Main extends Application {
             tabPane.getTabs().get(1).setContent(workViewTabWeek);
             BorderPane.setMargin(workViewTabWeek, new Insets(0, 0, 0, 0));
             TabWeeksController tabWeeksController = loader.getController();
+            tabWeeksController.setMainStage(this.primaryStage);
             logger.info("Tab with weeks view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,6 +96,7 @@ public class Main extends Application {
             tabPane.getTabs().get(0).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabTableController tabTableController = loader.getController();
+            tabTableController.setMainStage(this.primaryStage);
             logger.info("Tab with table task view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,6 +113,7 @@ public class Main extends Application {
             tabPane.getTabs().get(2).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabPersonController tabPersonController = loader.getController();
+            tabPersonController.setMainStage(this.primaryStage);
             logger.info("Tab with person view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -127,6 +130,7 @@ public class Main extends Application {
             tabPane.getTabs().get(3).setContent(tabTableView);
             BorderPane.setMargin(tabTableView, new Insets(0, 0, 0, 0));
             TabDocumentViewController tabDocumentViewController = loader.getController();
+            tabDocumentViewController.setMainStage(this.primaryStage);
             logger.info("Tab with document view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
