@@ -1,16 +1,18 @@
 package ru.kavcoffeefox.kcftaskmanager.service.impl;
 
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import ru.kavcoffeefox.kcftaskmanager.dao.PersonDAO;
 import ru.kavcoffeefox.kcftaskmanager.dao.PersonDAOHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
+import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.service.Manager;
 
 import java.util.List;
 
 @Slf4j
-public class PersonManagerHibernateImpl implements Manager<Person, Integer> {
-    private volatile static PersonManagerHibernateImpl INSTANCE;
+public class PersonManagerHibernateImpl extends AbstractManager implements Manager<Person, Integer> {
+    private volatile static PersonManagerHibernateImpl INSTANCE = null;
     private final PersonDAO personDAO;
 
     private PersonManagerHibernateImpl() {
@@ -50,5 +52,23 @@ public class PersonManagerHibernateImpl implements Manager<Person, Integer> {
                 }
             }
         return INSTANCE;
+    }
+
+    public Person showPersonView(Stage stage){
+        Person person = new Person();
+        showView(stage, person);
+        personDAO.addPerson(person);
+        return person;
+    }
+
+    public Person showPersonView(Stage stage, Person person){
+        showView(stage, person);
+        personDAO.updatePerson(person.getId(), person);
+        return person;
+    }
+
+    @Override
+    public void showView(Stage stage, SimpleItem item) {
+        showModalView(stage, "/view/modalwindows/PersonView.fxml", item);
     }
 }

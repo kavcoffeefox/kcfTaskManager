@@ -1,19 +1,20 @@
 package ru.kavcoffeefox.kcftaskmanager.service.impl;
 
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import ru.kavcoffeefox.kcftaskmanager.dao.TaskDAO;
 import ru.kavcoffeefox.kcftaskmanager.dao.TaskDAOHibernateImpl;
+import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
-
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class TaskManagerHibernateImpl implements TaskManager {
-    private volatile static TaskManagerHibernateImpl INSTANCE;
+public class TaskManagerHibernateImpl extends AbstractManager implements TaskManager {
+    private volatile static TaskManagerHibernateImpl INSTANCE = null;
     private final TaskDAO taskDAO;
 
     private Task currentTask;
@@ -97,4 +98,23 @@ public class TaskManagerHibernateImpl implements TaskManager {
     public List<Task> tasks(LocalDate startDate, LocalDate endDate) {
         return null;
     }
+
+    public Task showTaskView(Stage stage){
+        Task task = new Task();
+        showView(stage, task);
+        taskDAO.addTask(task);
+        return task;
+    }
+
+    public Task showTaskView(Stage stage, Task task){
+        showView(stage, task);
+        taskDAO.updateTask(task.getId(), task);
+        return task;
+    }
+
+    @Override
+    protected void showView(Stage stage, SimpleItem item){
+        showModalView(stage, "/view/modalwindows/TaskView.fxml", item);
+    }
+
 }
