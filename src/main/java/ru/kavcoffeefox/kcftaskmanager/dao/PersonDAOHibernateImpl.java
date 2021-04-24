@@ -64,6 +64,7 @@ public class PersonDAOHibernateImpl implements PersonDAO{
             localPerson.setRank(person.getRank());
             localPerson.setPosition(person.getPosition());
             localPerson.setTasks(person.getTasks());
+            localPerson.setDescription(person.getDescription());
             session.saveOrUpdate(localPerson);
             session.getTransaction().commit();
         } catch (Exception e) {
