@@ -1,11 +1,9 @@
 package ru.kavcoffeefox.kcftaskmanager.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.SearchableComboBox;
@@ -13,9 +11,13 @@ import ru.kavcoffeefox.kcftaskmanager.entity.*;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TagManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
+import ru.kavcoffeefox.kcftaskmanager.utils.PersonListCell;
+import ru.kavcoffeefox.kcftaskmanager.utils.TagListCell;
+import ru.kavcoffeefox.kcftaskmanager.utils.TaskListCell;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 @Slf4j
@@ -48,8 +50,21 @@ public class DocumentViewController extends AbstractController{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        scbPerson.setItems(FXCollections.observableArrayList(PersonManagerHibernateImpl.getInstance().getAll()));
 
+        scbTask.setItems(FXCollections.observableArrayList(TaskManagerHibernateImpl.getInstance().getAll()));
+
+        scbTag.setItems(FXCollections.observableArrayList(TagManagerHibernateImpl.getInstance().getAll()));
+
+        listPersons.setCellFactory(cell -> new PersonListCell());
+        scbPerson.setCellFactory(cell -> new PersonListCell());
+
+        scbTask.setCellFactory(cell -> new TaskListCell());
+        listTasks.setCellFactory(cell -> new TaskListCell());
+        scbTag.setCellFactory(cell -> new TagListCell());
+        listTags.setCellFactory(cell -> new TagListCell());
     }
+
     @FXML
     public void handleAddTask(ActionEvent actionEvent) {
         listTasks.getItems().add(scbTask.getValue());
@@ -58,6 +73,7 @@ public class DocumentViewController extends AbstractController{
     public void handleNewTask(ActionEvent actionEvent) {
         Task task = TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage());
         listTasks.getItems().add(task);
+        listTasks.refresh();
     }
     @FXML
     public void handleAddPerson(ActionEvent actionEvent) {
@@ -65,7 +81,10 @@ public class DocumentViewController extends AbstractController{
     }
     @FXML
     public void handleNewPerson(ActionEvent actionEvent) {
-        PersonManagerHibernateImpl.getInstance().showPersonView(this.getMainStage());
+        Person person = PersonManagerHibernateImpl.getInstance().showPersonView(this.getMainStage());
+        if (person != null)
+            listPersons.getItems().add(person);
+        listPersons.refresh();
     }
     @FXML
     public void handleAddTag(ActionEvent actionEvent) {
@@ -73,7 +92,10 @@ public class DocumentViewController extends AbstractController{
     }
     @FXML
     public void handleNewTag(ActionEvent actionEvent) {
-        TagManagerHibernateImpl.getInstance().showTagView(this.getMainStage());
+        Tag tag = TagManagerHibernateImpl.getInstance().showTagView(this.getMainStage());
+        if (tag != null)
+            listTags.getItems().add(tag);
+        listTags.refresh();
     }
     @FXML
     public void handleSave(ActionEvent actionEvent) {
@@ -83,12 +105,15 @@ public class DocumentViewController extends AbstractController{
             document.setPath(textFieldPath.getText() == null ? "": textFieldPath.getText());
             document.setDescription(textAreaDescription.getText() == null ? "": textAreaDescription.getText());
             document.setDate(datePickerDate.getValue());
-            this.getDialogStage().close();
+            document.setPersons(new ArrayList<>(listPersons.getItems()));
+            document.setTasks(new ArrayList<>(listTasks.getItems()));
+            document.setTags(new ArrayList<>(listTags.getItems()));
+            closeDialogView();
         }
     }
     @FXML
     public void handleCansel(ActionEvent actionEvent) {
-        this.getDialogStage().close();
+        closeDialogView();
     }
 
     public void handleSelectPath(ActionEvent actionEvent) {
@@ -110,6 +135,10 @@ public class DocumentViewController extends AbstractController{
         textFieldRequisite.setText(document.getRequisite() == null ? "":document.getRequisite());
         textAreaDescription.setText(document.getDescription() == null ? "":document.getDescription());
         datePickerDate.setValue(document.getDate());
+        textFieldPath.setText(document.getPath());
+        listPersons.getItems().addAll(document.getPersons());
+        listTasks.getItems().addAll(document.getTasks());
+        listTags.getItems().addAll(document.getTags());
     }
 
     private boolean isInputValid(){
@@ -117,4 +146,5 @@ public class DocumentViewController extends AbstractController{
 
         return true;
     }
+
 }
