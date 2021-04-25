@@ -75,7 +75,6 @@ public class TaskManagerHibernateImpl extends AbstractManager implements TaskMan
         return false;
     }
 
-
     @Override
     public boolean update(Integer id, Task task) {
         boolean isUpdate = taskDAO.updateTask(id, task);

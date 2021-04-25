@@ -18,32 +18,32 @@ public class TagManagerHibernateImpl extends AbstractManager implements Manager<
 
     @Override
     public boolean add(Tag item) {
-        return false;
+        return tagDAO.add(item);
     }
 
     @Override
     public Tag get(Integer id) {
-        return null;
+        return tagDAO.get(id);
     }
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        return tagDAO.delete(id);
     }
 
     @Override
     public boolean update(Integer id, Tag item) {
-        return false;
+        return tagDAO.update(id, item);
     }
 
     @Override
     public List<Tag> getAll() {
-        return null;
+        return tagDAO.getAll();
     }
 
     @Override
     protected void showView(Stage stage, SimpleItem item) {
-//        showModalView();
+        showModalView(stage, "/view/modalwindows/TagView.fxml", item);
     }
 
     public static TagManagerHibernateImpl getInstance() {
@@ -63,7 +63,7 @@ public class TagManagerHibernateImpl extends AbstractManager implements Manager<
         return tag;
     }
 
-    public Tag showPersonView(Stage stage, Tag tag){
+    public Tag showTagView(Stage stage, Tag tag){
         showView(stage, tag);
         tagDAO.update(tag.getId(), tag);
         return tag;
