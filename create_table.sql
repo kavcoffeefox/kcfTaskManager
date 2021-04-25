@@ -10,7 +10,7 @@ create table document
 
 create table tag
 (
-    id,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     name,
     description
 );
