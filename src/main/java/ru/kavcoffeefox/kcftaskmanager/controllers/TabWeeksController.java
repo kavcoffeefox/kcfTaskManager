@@ -34,38 +34,42 @@ public class TabWeeksController extends AbstractController {
     }
 
     @FXML
-    private void handleLeftBias(){
+    private void handleLeftBias() {
         startDay = startDay.minusWeeks(1);
         updateDaysDate();
     }
 
     @FXML
-    private void handleRightBias(){
+    private void handleRightBias() {
         startDay = startDay.plusWeeks(1);
         updateDaysDate();
 
     }
 
+    @FXML
+    private void handleRefresh() {
+        showData();
+    }
 
-    private void initDays(LocalDate tempLocalDate){
+    private void initDays(LocalDate tempLocalDate) {
         for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 7; j++){
-                listSimpleDays.add(new SimpleDay(tempLocalDate.plusDays((i*7)+j), taskManager));
-                gridPane.add(listSimpleDays.get((i*7)+j),j,i);
+            for (int j = 0; j < 7; j++) {
+                listSimpleDays.add(new SimpleDay(tempLocalDate.plusDays((i * 7) + j), taskManager));
+                gridPane.add(listSimpleDays.get((i * 7) + j), j, i);
             }
     }
 
-    private void updateDaysDate(){
-        for (int i=0; i<28; i++){
+    private void updateDaysDate() {
+        for (int i = 0; i < 28; i++) {
             listSimpleDays.get(i).setDate(startDay.plusDays(i));
         }
     }
 
-    public void showData(){
+    public void showData() {
         updateDaysDate();
     }
 
-    private LocalDate getFirstDayOfTheWeek(LocalDate localDate){
+    private LocalDate getFirstDayOfTheWeek(LocalDate localDate) {
         if (localDate.getDayOfWeek() == DayOfWeek.MONDAY) return localDate;
         if (localDate.getDayOfWeek() == DayOfWeek.TUESDAY) return localDate.minusDays(1);
         if (localDate.getDayOfWeek() == DayOfWeek.WEDNESDAY) return localDate.minusDays(2);

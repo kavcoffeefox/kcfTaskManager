@@ -2,7 +2,6 @@ package ru.kavcoffeefox.kcftaskmanager.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -13,7 +12,6 @@ import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class TabTableController extends AbstractController {
@@ -21,8 +19,6 @@ public class TabTableController extends AbstractController {
 
     @FXML
     private TableView<Task> taskTableView;
-    @FXML
-    private TableColumn<Task, String> taskDayColumn;
     @FXML
     private TableColumn<Task, String> taskDateColumn;
     @FXML
@@ -57,7 +53,7 @@ public class TabTableController extends AbstractController {
         taskWorkerColumn.setCellValueFactory(cellData -> {
             StringBuilder sb = new StringBuilder();
             for (Person person : cellData.getValue().getExecutors()) {
-                sb.append(person.getFirstName()).append(" ").append(person.getLastName().toUpperCase(Locale.ROOT).charAt(1)).append(".").append(person.getPatronymic().toUpperCase(Locale.ROOT).charAt(1)).append(".\n");
+                sb.append(Person.getFIO(person)).append("\n");
             }
             return new SimpleStringProperty(sb.toString());
         });
@@ -91,12 +87,7 @@ public class TabTableController extends AbstractController {
                         StringBuilder executors = new StringBuilder();
                         taskTableView.getSelectionModel().getSelectedItem().getExecutors()
                                 .forEach(person ->
-                                        executors.append(person.getFirstName())
-                                                .append(" ")
-                                                .append(person.getLastName().toUpperCase(Locale.ROOT).charAt(1))
-                                                .append(".")
-                                                .append(person.getPatronymic().toUpperCase(Locale.ROOT).charAt(1))
-                                                .append(".\n"));
+                                        executors.append(Person.getFIO(person)).append("\n"));
                         tooltip.setText("Исполнитель/и:\n" + executors +
                                 "\nНазвание: " + taskTableView.getSelectionModel().getSelectedItem().getName() +
                                 "\nОписание:\n" + taskTableView.getSelectionModel().getSelectedItem().getDescription());
@@ -109,28 +100,45 @@ public class TabTableController extends AbstractController {
             }
         });
 
-        taskTableView.setOnMousePressed(event -> taskManager.setCurrentTask(taskTableView.getSelectionModel().getSelectedItem()));
-        taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll()));
-    }
+        ContextMenu contextMenu = new ContextMenu();
 
-    public void actionButtonPressed(ActionEvent actionEvent) {
-        Object source = actionEvent.getSource();
-
-        if (!(source instanceof Button)) {
-            return;
-        }
-
-        Button clickedButton = (Button) source;
-
-        switch (clickedButton.getId()) {
-            case "tudayFilter" -> System.out.println("today");
-            case "hotFilter" -> System.out.println("hot");
-            case "failedFilter" -> System.out.println("failed");
-            case "updateView" -> {
-                taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll()));
+        MenuItem itemDelete = new MenuItem("Удалить");
+        itemDelete.setOnAction(event -> {
+            if (taskTableView.getSelectionModel().getSelectedItem() != null) {
+                taskManager.delete(taskTableView.getSelectionModel().getSelectedItem().getId());
+                taskTableView.getItems().remove(taskTableView.getSelectionModel().getSelectedItem());
                 taskTableView.refresh();
             }
-        }
+        });
+        MenuItem itemAdd = new MenuItem("Добавить");
+        itemAdd.setOnAction(event -> {
+            Task task = TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage());
+            if (task != null)
+                taskTableView.getItems().add(task);
+            taskTableView.refresh();
+        });
+        MenuItem itemUpdate = new MenuItem("Редактировать");
+        itemUpdate.setOnAction(event -> {
+            if (taskTableView.getSelectionModel().getSelectedItem() != null) {
+                Task task = taskTableView.getSelectionModel().getSelectedItem();
+                TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage(), task);
+                taskManager.update(task.getId(), task);
+                taskTableView.refresh();
+            }
+        });
+        MenuItem itemComplete = new MenuItem("Завершить");
+        itemComplete.setOnAction(event -> {
+            if (taskManager.getCurrentTask() != null) {
+                taskManager.getCurrentTask().setComplete(true);
+                taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
+            }
+        });
+
+        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemComplete);
+        taskTableView.setContextMenu(contextMenu);
+
+        taskTableView.setOnMousePressed(event -> taskManager.setCurrentTask(taskTableView.getSelectionModel().getSelectedItem()));
+        taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll()));
     }
 
 }

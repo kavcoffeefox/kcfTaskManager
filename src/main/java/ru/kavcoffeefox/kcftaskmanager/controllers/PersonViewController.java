@@ -4,15 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
+import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class PersonViewController extends AbstractController{
-    private Stage dialogStage;
     private Person person;
 
     @FXML
@@ -48,23 +47,20 @@ public class PersonViewController extends AbstractController{
             person.setDepartment(department.getText() == null ? "": department.getText());
             person.setPosition(position.getText() == null ? "": position.getText());
             person.setRank(rank.getText() == null ? "": rank.getText());
+            person.setDescription(description.getText() == null ? "": description.getText());
 
-            dialogStage.close();
+            closeDialogView();
         }
     }
 
     @FXML
     private void handleCansel(){
-        dialogStage.close();
+        closeDialogView();
     }
 
-    public void setDialogStage(Stage dialogStage){
-        this.dialogStage = dialogStage;
-    }
-
-    public void setPerson(Person person){
-
-        this.person = person;
+    @Override
+    public void setItem(SimpleItem item) {
+        this.person = (Person) item;
         firstName.setText(person.getFirstName());
         lastName.setText(person.getLastName());
         patronymic.setText(person.getPatronymic());
@@ -72,7 +68,7 @@ public class PersonViewController extends AbstractController{
         department.setText(person.getDepartment());
         position.setText(person.getPosition());
         rank.setText(person.getRank());
-//        description;
+        description.setText(person.getDescription());
     }
 
     private boolean isInputValid(){

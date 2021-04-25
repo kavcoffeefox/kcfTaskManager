@@ -3,18 +3,18 @@ package ru.kavcoffeefox.kcftaskmanager.controllers;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.controlsfx.control.SearchableComboBox;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
+import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
+import ru.kavcoffeefox.kcftaskmanager.utils.PersonListCell;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class TaskViewController extends AbstractController {
-    private Stage dialogStage;
     private Task task;
 
     @FXML
@@ -61,8 +61,11 @@ public class TaskViewController extends AbstractController {
     }
 
     @FXML void handleNewPerson(){
-
+        Person person = PersonManagerHibernateImpl.getInstance().showPersonView(this.getMainStage());
+        if (person != null)
+            listPeople.getItems().add(person);
     }
+
 
     @FXML
     private void handleOk(){
@@ -74,30 +77,24 @@ public class TaskViewController extends AbstractController {
             task.setDeadline(datePickerDeadline.getValue());
             task.setExecutors(new ArrayList<>(listPeople.getItems()));
 
-            dialogStage.close();
+            closeDialogView();
         }
     }
 
     @FXML
     private void handleCansel(){
-        this.task = null;
-        dialogStage.close();
+        closeDialogView();
     }
 
-
-    public void setDialogStage(Stage dialogStage){
-        this.dialogStage = dialogStage;
-    }
-
-    public void setTask(Task task){
-        this.task = task;
-
-        textFieldTaskName.setText(task.getName());
+    @Override
+    public void setItem(SimpleItem item){
+        this.task = (Task) item;
+        textFieldTaskName.setText(task.getName() == null ? "": task.getName());
         datePickerDeadline.setValue(task.getDeadline());
         listPeople.setItems(FXCollections.observableArrayList(task.getExecutors()));
-        textFieldTaskType.setText(task.getType());
+        textFieldTaskType.setText(task.getType() == null ? "": task.getType());
         textEditPeriod.setText(String.valueOf(task.getPeriod()));
-        textAreaDescription.setText(task.getDescription());
+        textAreaDescription.setText(task.getDescription() == null ? "" : task.getDescription());
     }
 
     private boolean isInputValid(){
@@ -106,16 +103,4 @@ public class TaskViewController extends AbstractController {
         return true;
     }
 
-        class PersonListCell extends ListCell<Person> {
-
-        @Override
-        protected void updateItem(Person person, boolean b) {
-            super.updateItem(person, b);
-            if (b || person == null) {
-                setText("");
-            } else {
-                setText(person.getFirstName() + person.getLastName());
-            }
-        }
-    }
 }
