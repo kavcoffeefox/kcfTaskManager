@@ -41,8 +41,8 @@ public class DocumentDAOHibernateImpl implements DocumentDAO {
     public boolean delete(Integer id) {
         try (Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()) {
             session.beginTransaction();
-            Task task = session.get(Task.class, id);
-            session.delete(task);
+            Document document = session.get(Document.class, id);
+            session.delete(document);
             session.getTransaction().commit();
         } catch (Exception e) {
             log.error(e.getMessage());
