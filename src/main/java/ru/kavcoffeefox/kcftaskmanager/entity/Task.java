@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor
 @ToString
 @Builder
-public class Task {
+public class Task implements SimpleItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -42,6 +42,27 @@ public class Task {
     )
     @ToString.Exclude
     private List<Person> executors = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(
+            name = "document_task",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "document_id")
+    )
+    @ToString.Exclude
+    private List<Document> documents = new ArrayList<>();
+
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(
+            name = "task_tag",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @ToString.Exclude
+    private List<Tag> tags = new ArrayList<>();
 
     public void addExecutor(Person executor) {
         executors.add(executor);
