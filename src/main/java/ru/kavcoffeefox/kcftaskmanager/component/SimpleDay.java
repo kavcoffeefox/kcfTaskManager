@@ -3,8 +3,11 @@ package ru.kavcoffeefox.kcftaskmanager.component;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
+import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -32,12 +35,7 @@ public class SimpleDay extends BorderPane {
                 StringBuilder executors = new StringBuilder();
                 tasksList.getSelectionModel().getSelectedItem().getExecutors()
                         .forEach(person ->
-                                executors.append(person.getFirstName())
-                                        .append(" ")
-                                        .append(person.getLastName().toUpperCase(Locale.ROOT).charAt(1))
-                                        .append(".")
-                                        .append(person.getPatronymic().toUpperCase(Locale.ROOT).charAt(1))
-                                        .append(".\n"));
+                                executors.append(Person.getFIO(person)).append("\n"));
                 tooltip.setText("Исполнитель/и:\n" + executors +
                         "\nНазвание: " + tasksList.getSelectionModel().getSelectedItem().getName() +
                         "\nОписание:\n" + tasksList.getSelectionModel().getSelectedItem().getDescription());
@@ -63,13 +61,39 @@ public class SimpleDay extends BorderPane {
 
         ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem item1 = new MenuItem("Удалить");
-        MenuItem item2 = new MenuItem("Завершить");
-        MenuItem item3 = new MenuItem("Продлить");
-        item1.setOnAction(event -> System.out.println("Удаление задачи"));
-        item2.setOnAction(event -> System.out.println("Завершение задачи"));
-        item3.setOnAction(event -> System.out.println("Продление задачи на день"));
-        contextMenu.getItems().addAll(item1, item2, item3);
+        MenuItem itemDelete = new MenuItem("Удалить");
+        itemDelete.setOnAction(event -> {
+            if (tasksList.getSelectionModel().getSelectedItem() != null) {
+                taskManager.delete(tasksList.getSelectionModel().getSelectedItem().getId());
+                tasksList.getItems().remove(tasksList.getSelectionModel().getSelectedItem());
+                tasksList.refresh();
+            }
+        });
+        MenuItem itemAdd = new MenuItem("Добавить");
+        itemAdd.setOnAction(event -> {
+            Task task = TaskManagerHibernateImpl.getInstance().showTaskView(new Stage());
+            if (task != null)
+                tasksList.getItems().add(task);
+            tasksList.refresh();
+        });
+        MenuItem itemUpdate = new MenuItem("Редактировать");
+        itemUpdate.setOnAction(event -> {
+            if (tasksList.getSelectionModel().getSelectedItem() != null) {
+                Task task = tasksList.getSelectionModel().getSelectedItem();
+                TaskManagerHibernateImpl.getInstance().showTaskView(new Stage(), task);
+                taskManager.update(task.getId(), task);
+                tasksList.refresh();
+            }
+        });
+        MenuItem itemComplete = new MenuItem("Завершить");
+        itemComplete.setOnAction(event -> {
+            if (taskManager.getCurrentTask() != null) {
+                taskManager.getCurrentTask().setComplete(true);
+                taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
+            }
+        });
+
+        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemComplete);
         tasksList.setContextMenu(contextMenu);
     }
 
