@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import ru.kavcoffeefox.kcftaskmanager.database.HibernateConnection;
 import ru.kavcoffeefox.kcftaskmanager.entity.Document;
-import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 
 import java.util.List;
 
@@ -73,8 +72,14 @@ public class DocumentDAOHibernateImpl implements DocumentDAO {
     @Override
     public List<Document> getAll() {
         try (Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()) {
+
             session.beginTransaction();
             List<Document> documents = session.createQuery("from Document ").getResultList();
+            documents.forEach( document -> {
+                log.info(document.getPersons().toString());
+                log.info(document.getTags().toString());
+                log.info(document.getTasks().toString());
+            });
             session.getTransaction().commit();
             return documents;
         } catch (Exception e) {
