@@ -87,9 +87,9 @@ public class SimpleDay extends BorderPane {
         });
         MenuItem itemComplete = new MenuItem("Завершить");
         itemComplete.setOnAction(event -> {
-            if (taskManager.getCurrentTask() != null) {
-                taskManager.getCurrentTask().setComplete(true);
-                taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
+            if (tasksList.getSelectionModel().getSelectedItem() != null) {
+                tasksList.getSelectionModel().getSelectedItem().setComplete(true);
+                taskManager.update(tasksList.getSelectionModel().getSelectedItem().getId(), tasksList.getSelectionModel().getSelectedItem());
             }
         });
 
