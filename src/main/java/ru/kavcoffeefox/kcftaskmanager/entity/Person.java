@@ -4,9 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Entity
 @Table(name = "person")
@@ -47,14 +45,14 @@ public class Person implements SimpleItem{
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     @ToString.Exclude
-    private List<Task> tasks = new ArrayList<>();
+    private Set<Task> tasks = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "document_person",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "document_id"))
     @ToString.Exclude
-    private List<Document> documents = new ArrayList<>();
+    private Set<Document> documents = new HashSet<>();
 
 
     public Person(String firstName, String lastName, String patronymic, LocalDate birthDay, String department, String position, String rank) {

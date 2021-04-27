@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "task")
@@ -41,7 +41,7 @@ public class Task implements SimpleItem {
             inverseJoinColumns = @JoinColumn(name = "person_id")
     )
     @ToString.Exclude
-    private List<Person> executors = new ArrayList<>();
+    private Set<Person> executors = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
@@ -51,7 +51,7 @@ public class Task implements SimpleItem {
             inverseJoinColumns = @JoinColumn(name = "document_id")
     )
     @ToString.Exclude
-    private List<Document> documents = new ArrayList<>();
+    private Set<Document> documents = new HashSet<>();
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
@@ -62,7 +62,7 @@ public class Task implements SimpleItem {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     @ToString.Exclude
-    private List<Tag> tags = new ArrayList<>();
+    private Set<Tag> tags = new HashSet<>();
 
     public void addExecutor(Person executor) {
         executors.add(executor);
