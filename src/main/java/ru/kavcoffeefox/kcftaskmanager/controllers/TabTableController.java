@@ -128,13 +128,17 @@ public class TabTableController extends AbstractController {
         });
         MenuItem itemComplete = new MenuItem("Завершить");
         itemComplete.setOnAction(event -> {
-            if (taskManager.getCurrentTask() != null) {
-                taskManager.getCurrentTask().setComplete(true);
-                taskManager.update(taskManager.getCurrentTask().getId(), taskManager.getCurrentTask());
+            if (taskTableView.getSelectionModel().getSelectedItem() != null) {
+                taskTableView.getSelectionModel().getSelectedItem().setComplete(true);
+                taskManager.update(taskTableView.getSelectionModel().getSelectedItem().getId(), taskTableView.getSelectionModel().getSelectedItem());
             }
         });
+        MenuItem itemRefresh = new MenuItem("Обновить данные");
+        itemRefresh.setOnAction(event -> {
+            taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll()));
+        });
 
-        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemComplete);
+        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemComplete, itemRefresh);
         taskTableView.setContextMenu(contextMenu);
 
         taskTableView.setOnMousePressed(event -> taskManager.setCurrentTask(taskTableView.getSelectionModel().getSelectedItem()));

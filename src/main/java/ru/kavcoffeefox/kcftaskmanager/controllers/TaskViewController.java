@@ -11,7 +11,7 @@ import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.utils.PersonListCell;
 
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class TaskViewController extends AbstractController {
@@ -75,7 +75,7 @@ public class TaskViewController extends AbstractController {
             task.setPeriod(Integer.parseInt(textEditPeriod.getText()));
             task.setDescription(textAreaDescription.getText());
             task.setDeadline(datePickerDeadline.getValue());
-            task.setExecutors(new ArrayList<>(listPeople.getItems()));
+            task.setExecutors(new HashSet<>(listPeople.getItems()));
 
             closeDialogView();
         }
@@ -98,7 +98,6 @@ public class TaskViewController extends AbstractController {
     }
 
     private boolean isInputValid(){
-        String errorMessage = " ";
 
         return true;
     }

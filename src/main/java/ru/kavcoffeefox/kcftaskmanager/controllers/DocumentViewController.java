@@ -1,9 +1,11 @@
 package ru.kavcoffeefox.kcftaskmanager.controllers;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.SearchableComboBox;
@@ -17,7 +19,7 @@ import ru.kavcoffeefox.kcftaskmanager.utils.TaskListCell;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 @Slf4j
@@ -66,57 +68,57 @@ public class DocumentViewController extends AbstractController{
     }
 
     @FXML
-    public void handleAddTask(ActionEvent actionEvent) {
+    public void handleAddTask() {
         listTasks.getItems().add(scbTask.getValue());
     }
     @FXML
-    public void handleNewTask(ActionEvent actionEvent) {
+    public void handleNewTask() {
         Task task = TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage());
         listTasks.getItems().add(task);
         listTasks.refresh();
     }
     @FXML
-    public void handleAddPerson(ActionEvent actionEvent) {
+    public void handleAddPerson() {
         listPersons.getItems().add(scbPerson.getValue());
     }
     @FXML
-    public void handleNewPerson(ActionEvent actionEvent) {
+    public void handleNewPerson() {
         Person person = PersonManagerHibernateImpl.getInstance().showPersonView(this.getMainStage());
         if (person != null)
             listPersons.getItems().add(person);
         listPersons.refresh();
     }
     @FXML
-    public void handleAddTag(ActionEvent actionEvent) {
+    public void handleAddTag() {
         listTags.getItems().add(scbTag.getValue());
     }
     @FXML
-    public void handleNewTag(ActionEvent actionEvent) {
+    public void handleNewTag() {
         Tag tag = TagManagerHibernateImpl.getInstance().showTagView(this.getMainStage());
         if (tag != null)
             listTags.getItems().add(tag);
         listTags.refresh();
     }
     @FXML
-    public void handleSave(ActionEvent actionEvent) {
+    public void handleSave() {
         if (isInputValid()){
             document.setName(textFieldName.getText() == null ? "": textFieldName.getText());
             document.setRequisite(textFieldRequisite.getText() == null ? "": textFieldRequisite.getText());
             document.setPath(textFieldPath.getText() == null ? "": textFieldPath.getText());
             document.setDescription(textAreaDescription.getText() == null ? "": textAreaDescription.getText());
             document.setDate(datePickerDate.getValue());
-            document.setPersons(new ArrayList<>(listPersons.getItems()));
-            document.setTasks(new ArrayList<>(listTasks.getItems()));
-            document.setTags(new ArrayList<>(listTags.getItems()));
+            document.setPersons(new HashSet<>(listPersons.getItems()));
+            document.setTasks(new HashSet<>(listTasks.getItems()));
+            document.setTags(new HashSet<>(listTags.getItems()));
             closeDialogView();
         }
     }
     @FXML
-    public void handleCansel(ActionEvent actionEvent) {
+    public void handleCansel() {
         closeDialogView();
     }
 
-    public void handleSelectPath(ActionEvent actionEvent) {
+    public void handleSelectPath() {
         FileChooser fileChooser = new FileChooser();
 
 //        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("*.*");
@@ -142,7 +144,6 @@ public class DocumentViewController extends AbstractController{
     }
 
     private boolean isInputValid(){
-        String errorMessage = " ";
 
         return true;
     }

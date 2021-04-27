@@ -77,8 +77,10 @@ public class TabPersonController extends AbstractController {
                 personTableView.refresh();
             }
         });
+        MenuItem itemRefresh = new MenuItem("Обновить данные");
+        itemRefresh.setOnAction(event -> personTableView.setItems(FXCollections.observableArrayList(personManager.getAll())));
 
-        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate);
+        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemRefresh);
         this.personTableView.setContextMenu(contextMenu);
     }
 
