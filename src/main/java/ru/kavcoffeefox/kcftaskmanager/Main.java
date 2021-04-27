@@ -73,7 +73,7 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/view/tabs/TabWeekView.fxml"));
-            AnchorPane workViewTabWeek = loader.load();
+            BorderPane workViewTabWeek = loader.load();
 
             TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
             tabPane.getTabs().get(1).setContent(workViewTabWeek);
