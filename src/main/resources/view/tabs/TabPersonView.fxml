@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -27,6 +28,10 @@
       </AnchorPane>
    </center>
    <bottom>
-      <Button maxHeight="22.0" mnemonicParsing="false" onAction="#addPerson" prefHeight="22.0" text="Добавить сотрудника" BorderPane.alignment="CENTER" />
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+            <Button maxHeight="22.0" mnemonicParsing="false" onAction="#addPerson" prefHeight="22.0" text="Добавить сотрудника" />
+        </buttons>
+      </ButtonBar>
    </bottom>
 </BorderPane>
