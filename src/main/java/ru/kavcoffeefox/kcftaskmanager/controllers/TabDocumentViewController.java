@@ -1,15 +1,17 @@
 package ru.kavcoffeefox.kcftaskmanager.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.util.Callback;
+import java.awt.Desktop;
 import ru.kavcoffeefox.kcftaskmanager.entity.Document;
+import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.service.Manager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.DocumentManagerHibernateImpl;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,6 +39,44 @@ public class TabDocumentViewController extends AbstractController{
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         requisiteColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRequisite()));
         descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+        personColumn.setCellValueFactory(cellData -> {
+            StringBuilder sb = new StringBuilder();
+            for (Person person : cellData.getValue().getPersons()) {
+                sb.append(Person.getFIO(person)).append("\n");
+            }
+            return new SimpleStringProperty(sb.toString());
+        });
+        actionColumn.setCellFactory(new Callback<>() {
+            @Override
+            public TableCell<Document, String> call(final TableColumn<Document, String> param) {
+                final TableCell<Document, String> cell = new TableCell<>() {
+
+                    final Button btn = new Button("Открыть папку");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            btn.setOnAction(actionEvent -> {
+                                if (Desktop.isDesktopSupported()) {
+                                    if ( documentTable.getSelectionModel().getSelectedItem() != null)
+                                        Desktop.getDesktop().browseFileDirectory(new File(documentTable.getSelectionModel().getSelectedItem().getPath()));
+                                } else {
+                                    System.out.println("None sup");
+                                }
+                            });
+                            setGraphic(btn);
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+
 
         ContextMenu contextMenu = new ContextMenu();
 
@@ -64,8 +104,10 @@ public class TabDocumentViewController extends AbstractController{
                 documentTable.refresh();
             }
         });
+        MenuItem itemRefresh = new MenuItem("Обновить данные");
+        itemRefresh.setOnAction(event -> documentTable.setItems(FXCollections.observableArrayList(documentManager.getAll())));
 
-        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate);
+        contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemRefresh);
         documentTable.setContextMenu(contextMenu);
         documentTable.getItems().addAll(documentManager.getAll());
     }
