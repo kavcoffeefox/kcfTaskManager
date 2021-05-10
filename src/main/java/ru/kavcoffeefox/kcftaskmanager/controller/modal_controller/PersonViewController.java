@@ -12,7 +12,7 @@ import ru.kavcoffeefox.kcftaskmanager.entity.Department;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.DepartmentManagerHibernateImpl;
-import ru.kavcoffeefox.kcftaskmanager.utils.DepartmentListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.DepartmentListCell;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -44,7 +44,7 @@ public class PersonViewController extends AbstractController {
         department.setCellFactory(cell -> new DepartmentListCell());
 
         department.setConverter(
-                new StringConverter<Department>() {
+                new StringConverter<>() {
                     @Override
                     public String toString(Department department) {
                         return department == null ? "" : department.getName();

@@ -15,9 +15,9 @@ import ru.kavcoffeefox.kcftaskmanager.entity.*;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TagManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
-import ru.kavcoffeefox.kcftaskmanager.utils.PersonListCell;
-import ru.kavcoffeefox.kcftaskmanager.utils.TagListCell;
-import ru.kavcoffeefox.kcftaskmanager.utils.TaskListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.PersonListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.TagListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.TaskListCell;
 
 import java.io.File;
 import java.net.URL;
@@ -69,7 +69,7 @@ public class DocumentViewController extends AbstractController {
         listTags.setCellFactory(cell -> new TagListCell());
 
         scbTask.setConverter(
-                new StringConverter<Task>() {
+                new StringConverter<>() {
                     @Override
                     public String toString(Task task) {
                         return task == null ? "" : task.getName();
@@ -81,7 +81,7 @@ public class DocumentViewController extends AbstractController {
                     }
                 });
         scbTag.setConverter(
-                new StringConverter<Tag>() {
+                new StringConverter<>() {
                     @Override
                     public String toString(Tag tag) {
                         return tag == null ? "" : tag.getName();
@@ -93,7 +93,7 @@ public class DocumentViewController extends AbstractController {
                     }
                 });
         scbPerson.setConverter(
-                new StringConverter<Person>() {
+                new StringConverter<>() {
                     @Override
                     public String toString(Person person) {
                         return person == null ? "" : Person.getFIO(person);

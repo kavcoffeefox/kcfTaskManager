@@ -1,14 +1,13 @@
 package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Department;
 import ru.kavcoffeefox.kcftaskmanager.service.Manager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.DepartmentManagerHibernateImpl;
-import ru.kavcoffeefox.kcftaskmanager.utils.DepartmentListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.DepartmentListCell;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,9 +48,7 @@ public class TabDepartmentController extends AbstractController {
             }
         });
         MenuItem itemRefresh = new MenuItem("Обновить данные");
-        itemRefresh.setOnAction(event -> {
-            departments.setItems(FXCollections.observableArrayList(departamentManager.getAll()));
-        });
+        itemRefresh.setOnAction(event -> departments.setItems(FXCollections.observableArrayList(departamentManager.getAll())));
 
         contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemRefresh);
         departments.setContextMenu(contextMenu);

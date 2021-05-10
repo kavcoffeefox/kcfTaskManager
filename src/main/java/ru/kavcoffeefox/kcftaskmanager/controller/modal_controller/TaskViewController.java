@@ -12,8 +12,8 @@ import ru.kavcoffeefox.kcftaskmanager.entity.Tag;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TagManagerHibernateImpl;
-import ru.kavcoffeefox.kcftaskmanager.utils.PersonListCell;
-import ru.kavcoffeefox.kcftaskmanager.utils.TagListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.PersonListCell;
+import ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell.TagListCell;
 
 import java.net.URL;
 import java.util.HashSet;

@@ -70,9 +70,14 @@ public class TabTableController extends AbstractController {
                         taskTableView.getSelectionModel().getSelectedItem().getExecutors()
                                 .forEach(person ->
                                         executors.append(Person.getFIO(person)).append("\n"));
+                        StringBuilder tags = new StringBuilder();
+                        taskTableView.getSelectionModel().getSelectedItem().getTags()
+                                .forEach(tag ->
+                                        tags.append("#").append(tag.getName()).append("  "));
                         tooltip.setText("Исполнитель/и:\n" + executors +
                                 "\nНазвание: " + taskTableView.getSelectionModel().getSelectedItem().getName() +
-                                "\nОписание:\n" + taskTableView.getSelectionModel().getSelectedItem().getDescription());
+                                "\nОписание:\n" + taskTableView.getSelectionModel().getSelectedItem().getDescription() +
+                                "\n\nТеги: " + tags);
                         tooltip.setMaxSize(300, 500);
                         tooltip.show(taskTableView, event.getX(), event.getY());
                     }
@@ -116,9 +121,7 @@ public class TabTableController extends AbstractController {
             }
         });
         MenuItem itemRefresh = new MenuItem("Обновить данные");
-        itemRefresh.setOnAction(event -> {
-            taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll()));
-        });
+        itemRefresh.setOnAction(event -> taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll())));
 
         contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemComplete, itemRefresh);
         taskTableView.setContextMenu(contextMenu);

@@ -1,4 +1,4 @@
-package ru.kavcoffeefox.kcftaskmanager.utils;
+package ru.kavcoffeefox.kcftaskmanager.component.custom_list_cell;
 
 import javafx.scene.control.ListCell;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
