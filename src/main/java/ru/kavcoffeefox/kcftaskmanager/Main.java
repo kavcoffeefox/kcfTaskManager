@@ -1,9 +1,6 @@
 package ru.kavcoffeefox.kcftaskmanager;
 
-import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabDocumentViewController;
-import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabPersonController;
-import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabTableController;
-import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabWeeksController;
+import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.*;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -64,6 +61,7 @@ public class Main extends Application {
             showTabWorkTableTab();
             showTabPersonViewTab();
             showTabDocumentViewTab();
+            showTabSetting();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,6 +79,23 @@ public class Main extends Application {
             TabWeeksController tabWeeksController = loader.getController();
             tabWeeksController.setMainStage(this.primaryStage);
             logger.info("Tab with weeks view is showed!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showTabSetting() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("/view/tabs/TabDepartment.fxml"));
+            BorderPane viewSetting = loader.load();
+
+            TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
+            tabPane.getTabs().get(4).setContent(viewSetting);
+            BorderPane.setMargin(viewSetting, new Insets(0, 0, 0, 0));
+            TabDepartmentController tabDepartmentController = loader.getController();
+            tabDepartmentController.setMainStage(this.primaryStage);
+            logger.info("Tab with setting view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
         }
