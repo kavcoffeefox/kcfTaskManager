@@ -28,8 +28,6 @@ public class Person implements SimpleItem{
     private String patronymic;
     @Column(name = "birthDay")
     private LocalDate birthDay;
-    @Column(name = "department")
-    private String department;
     @Column(name = "position")
     private String position;
     @Column(name = "rank")
@@ -37,10 +35,16 @@ public class Person implements SimpleItem{
     @Column(name = "description")
     private String description;
 
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "department")
+    @ToString.Exclude
+    private Department department;
+
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
-            name = "task_executor",
+            name = "task_person",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
@@ -53,17 +57,6 @@ public class Person implements SimpleItem{
             inverseJoinColumns = @JoinColumn(name = "document_id"))
     @ToString.Exclude
     private Set<Document> documents = new HashSet<>();
-
-
-    public Person(String firstName, String lastName, String patronymic, LocalDate birthDay, String department, String position, String rank) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
-        this.birthDay = birthDay;
-        this.department = department;
-        this.position = position;
-        this.rank = rank;
-    }
 
     public static String getFIO(Person person){
         StringBuilder fio = new StringBuilder();

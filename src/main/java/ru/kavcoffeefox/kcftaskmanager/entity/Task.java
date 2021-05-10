@@ -36,7 +36,7 @@ public class Task implements SimpleItem {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
     CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "task_executor",
+            name = "task_person",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id")
     )
