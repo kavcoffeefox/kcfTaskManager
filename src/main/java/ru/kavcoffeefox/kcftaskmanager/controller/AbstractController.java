@@ -1,4 +1,4 @@
-package ru.kavcoffeefox.kcftaskmanager.controllers;
+package ru.kavcoffeefox.kcftaskmanager.controller;
 
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
@@ -14,6 +14,14 @@ public abstract class AbstractController implements Initializable {
     // Ссылка на главное приложение.
     private Stage mainStage;
     private Stage dialogStage;
+    private boolean okClicked = false;
+
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+    protected void setOkClicked(boolean status){
+        okClicked = status;
+    }
 
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;

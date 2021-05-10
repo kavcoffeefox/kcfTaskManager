@@ -1,7 +1,8 @@
-package ru.kavcoffeefox.kcftaskmanager.controllers;
+package ru.kavcoffeefox.kcftaskmanager.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
