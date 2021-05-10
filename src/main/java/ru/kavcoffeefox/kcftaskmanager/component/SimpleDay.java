@@ -31,7 +31,6 @@ public class SimpleDay extends BorderPane {
 
         tasksList.setOnMousePressed(event -> {
             if (tasksList.getSelectionModel().getSelectedItem() != null) {
-                taskManager.setCurrentTask(tasksList.getSelectionModel().getSelectedItem());
                 StringBuilder executors = new StringBuilder();
                 tasksList.getSelectionModel().getSelectedItem().getExecutors()
                         .forEach(person ->

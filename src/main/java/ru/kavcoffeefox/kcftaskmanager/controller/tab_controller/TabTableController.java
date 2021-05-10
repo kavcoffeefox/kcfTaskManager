@@ -66,7 +66,6 @@ public class TabTableController extends AbstractController {
                 taskTableView.setOnMousePressed(event -> {
 
                     if (taskTableView.getSelectionModel().getSelectedItem() != null) {
-                        taskManager.setCurrentTask(taskTableView.getSelectionModel().getSelectedItem());
                         StringBuilder executors = new StringBuilder();
                         taskTableView.getSelectionModel().getSelectedItem().getExecutors()
                                 .forEach(person ->
