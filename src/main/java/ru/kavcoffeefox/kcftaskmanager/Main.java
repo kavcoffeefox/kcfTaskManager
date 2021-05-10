@@ -1,9 +1,9 @@
 package ru.kavcoffeefox.kcftaskmanager;
 
-import ru.kavcoffeefox.kcftaskmanager.controllers.TabDocumentViewController;
-import ru.kavcoffeefox.kcftaskmanager.controllers.TabPersonController;
-import ru.kavcoffeefox.kcftaskmanager.controllers.TabTableController;
-import ru.kavcoffeefox.kcftaskmanager.controllers.TabWeeksController;
+import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabDocumentViewController;
+import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabPersonController;
+import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabTableController;
+import ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabWeeksController;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
