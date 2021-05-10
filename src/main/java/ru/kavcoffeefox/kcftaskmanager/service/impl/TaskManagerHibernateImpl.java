@@ -90,7 +90,7 @@ public class TaskManagerHibernateImpl extends AbstractManager implements TaskMan
 
     @Override
     public List<Task> tasks(LocalDate deadline) {
-        return taskDAO.getAllTask().stream().filter(task -> task.getDeadline().equals(deadline)).collect(Collectors.toList());
+        return taskDAO.getAllTask().stream().filter(task -> task.getDeadline() != null).filter(task -> task.getDeadline().equals(deadline)).collect(Collectors.toList());
     }
 
     @Override
