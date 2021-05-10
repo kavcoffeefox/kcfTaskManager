@@ -3,10 +3,7 @@ package ru.kavcoffeefox.kcftaskmanager.database;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import ru.kavcoffeefox.kcftaskmanager.entity.Document;
-import ru.kavcoffeefox.kcftaskmanager.entity.Person;
-import ru.kavcoffeefox.kcftaskmanager.entity.Tag;
-import ru.kavcoffeefox.kcftaskmanager.entity.Task;
+import ru.kavcoffeefox.kcftaskmanager.entity.*;
 
 @Slf4j
 public class HibernateConnection {
@@ -20,6 +17,7 @@ public class HibernateConnection {
                 .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Document.class)
                 .addAnnotatedClass(Tag.class)
+                .addAnnotatedClass(Department.class)
                 .buildSessionFactory();
         log.info("Hibernate connection is create");
     }
