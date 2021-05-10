@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<AnchorPane prefHeight="672.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controllers.DocumentViewController">
+<AnchorPane prefHeight="672.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.modal_controller.DocumentViewController">
     <BorderPane layoutX="285.0" layoutY="73.0" prefHeight="438.0" prefWidth="363.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
         <BorderPane BorderPane.alignment="CENTER">

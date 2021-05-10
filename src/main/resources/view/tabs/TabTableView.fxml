@@ -5,15 +5,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controllers.TabTableController">
+<AnchorPane prefHeight="400.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabTableController">
     <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <center>
             <AnchorPane BorderPane.alignment="CENTER">
-                <TableView fx:id="taskTableView" prefHeight="400.0" prefWidth="600.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <TableView fx:id="taskTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="taskDateColumn" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Исполнить до:" />
                         <TableColumn fx:id="taskWorkerColumn" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Сотрудник" />
-                        <TableColumn fx:id="taskNameColumn" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" sortable="false" text="Название" />
+                        <TableColumn fx:id="taskNameColumn" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" text="Название" />
                         <TableColumn fx:id="taskDescriptionColumn" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" sortable="false" text="Описание" />
                     </columns>
                   <columnResizePolicy>

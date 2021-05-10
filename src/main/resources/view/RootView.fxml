@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controllers.RootViewController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.RootViewController">
    <top>
       <HBox style="-fx-border-color: #339999; -fx-border-width: 2;" BorderPane.alignment="CENTER">
          <Label prefHeight="30.0" text="Сегодня:" textAlignment="CENTER">

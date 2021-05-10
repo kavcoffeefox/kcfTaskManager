@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="443.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controllers.TabDocumentViewController">
+<BorderPane prefHeight="443.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabDocumentViewController">
    <center>
        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
            <TableView fx:id="documentTable" layoutX="172.0" layoutY="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

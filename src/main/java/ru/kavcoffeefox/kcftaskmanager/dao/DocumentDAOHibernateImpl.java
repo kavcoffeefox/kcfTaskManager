@@ -88,9 +88,4 @@ public class DocumentDAOHibernateImpl implements DocumentDAO {
         }
     }
 
-    public static void main(String[] args) {
-        Document document = new Document();
-        DocumentDAOHibernateImpl d = new DocumentDAOHibernateImpl();
-        d.add(document);
-    }
 }
