@@ -1,6 +1,8 @@
 package ru.kavcoffeefox.kcftaskmanager.entity;
 
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -38,6 +40,7 @@ public class Person implements SimpleItem{
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "department")
+    @NotFound(action = NotFoundAction.IGNORE)
     @ToString.Exclude
     private Department department;
 

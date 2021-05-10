@@ -13,12 +13,13 @@ public class PersonDAOHibernateImpl implements PersonDAO{
     public boolean addPerson(Person person) {
         try(Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()){
             session.beginTransaction();
-            session.persist(person);
+            session.saveOrUpdate(person);
             session.getTransaction().commit();
             return true;
         }
         catch (Exception e){
             log.error(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -33,6 +34,7 @@ public class PersonDAOHibernateImpl implements PersonDAO{
         }
         catch (Exception e){
             log.error(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -47,6 +49,7 @@ public class PersonDAOHibernateImpl implements PersonDAO{
             return true;
         }catch (Exception e){
             log.error(e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -69,6 +72,7 @@ public class PersonDAOHibernateImpl implements PersonDAO{
             session.getTransaction().commit();
         } catch (Exception e) {
             log.error(e.getMessage());
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -83,6 +87,7 @@ public class PersonDAOHibernateImpl implements PersonDAO{
             return persons;
         } catch (Exception e) {
             log.error(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
