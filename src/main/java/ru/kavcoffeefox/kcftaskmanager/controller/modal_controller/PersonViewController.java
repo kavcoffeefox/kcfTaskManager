@@ -1,17 +1,18 @@
 package ru.kavcoffeefox.kcftaskmanager.controller.modal_controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import org.controlsfx.control.SearchableComboBox;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Department;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.DepartmentManagerHibernateImpl;
+import ru.kavcoffeefox.kcftaskmanager.utils.DepartmentListCell;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -40,7 +41,20 @@ public class PersonViewController extends AbstractController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        department.setCellFactory(cell -> new DepartmentListCell());
 
+        department.setConverter(
+                new StringConverter<Department>() {
+                    @Override
+                    public String toString(Department department) {
+                        return department == null ? "" : department.getName();
+                    }
+
+                    @Override
+                    public Department fromString(String s) {
+                        return null;
+                    }
+                });
     }
 
     @FXML
@@ -86,10 +100,4 @@ public class PersonViewController extends AbstractController {
         return true;
     }
 
-    @FXML
-    public void addDepartment(ActionEvent actionEvent) {
-        Department dep = DepartmentManagerHibernateImpl.getInstance().showDepartmentView(getMainStage());
-        department.setItems(FXCollections.observableArrayList(DepartmentManagerHibernateImpl.getInstance().getAll()));
-        department.setValue(dep);
-    }
 }

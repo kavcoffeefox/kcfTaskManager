@@ -87,9 +87,7 @@ public class TabPersonController extends AbstractController {
 
     @FXML
     public void addPerson() {
-        Person person = new Person();
-        PersonManagerHibernateImpl.getInstance().showPersonView(this.getMainStage() ,person);
-        personManager.add(person);
+        Person person =  PersonManagerHibernateImpl.getInstance().showPersonView(this.getMainStage());
         personTableView.getItems().add(person);
         personTableView.refresh();
     }

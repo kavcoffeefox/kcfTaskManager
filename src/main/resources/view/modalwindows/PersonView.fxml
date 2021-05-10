@@ -51,7 +51,6 @@
       <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <children>
             <SearchableComboBox fx:id="department" maxHeight="26.0" HBox.hgrow="ALWAYS" />
-            <Button maxWidth="131.0" mnemonicParsing="false" onAction="#addDepartment" text="Добавить новый" />
          </children>
       </HBox>
     </GridPane>
