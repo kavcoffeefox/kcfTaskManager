@@ -1,11 +1,11 @@
-package ru.kavcoffeefox.kcftaskmanager.controllers;
+package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
@@ -48,7 +48,7 @@ public class TabTableController extends AbstractController {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        taskDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeadline().toString()));
+        taskDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeadline() != null ?cellData.getValue().getDeadline().toString(): ""));
         taskNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         taskWorkerColumn.setCellValueFactory(cellData -> {
             StringBuilder sb = new StringBuilder();
@@ -58,23 +58,6 @@ public class TabTableController extends AbstractController {
             return new SimpleStringProperty(sb.toString());
         });
         taskDescriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
-
-        taskDescriptionColumn.setCellFactory(param -> {
-            TableCell<Task, String> cell = new TableCell<>();
-            Text text = new Text();
-            cell.setGraphic(text);
-            text.textProperty().bind(cell.itemProperty());
-            text.wrappingWidthProperty().bind(taskDescriptionColumn.widthProperty());
-            return cell;
-        });
-        taskNameColumn.setCellFactory(param -> {
-            TableCell<Task, String> cell = new TableCell<>();
-            Text text = new Text();
-            cell.setGraphic(text);
-            text.textProperty().bind(cell.itemProperty());
-            text.wrappingWidthProperty().bind(taskNameColumn.widthProperty());
-            return cell;
-        });
 
         taskTableView.setRowFactory((TableView<Task> tv) -> new TableRow<>() {
             @Override

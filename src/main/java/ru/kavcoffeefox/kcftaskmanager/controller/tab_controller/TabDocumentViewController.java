@@ -1,4 +1,4 @@
-package ru.kavcoffeefox.kcftaskmanager.controllers;
+package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import java.awt.Desktop;
+
+import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Document;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.service.Manager;
@@ -15,7 +17,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TabDocumentViewController extends AbstractController{
+public class TabDocumentViewController extends AbstractController {
     Manager<Document, Integer> documentManager = DocumentManagerHibernateImpl.getInstance();
     @FXML
     public TableView<Document> documentTable;
@@ -46,12 +48,15 @@ public class TabDocumentViewController extends AbstractController{
             }
             return new SimpleStringProperty(sb.toString());
         });
+
+//        actionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPath()));
         actionColumn.setCellFactory(new Callback<>() {
             @Override
             public TableCell<Document, String> call(final TableColumn<Document, String> param) {
                 final TableCell<Document, String> cell = new TableCell<>() {
 
                     final Button btn = new Button("Открыть папку");
+
 
                     @Override
                     public void updateItem(String item, boolean empty) {
