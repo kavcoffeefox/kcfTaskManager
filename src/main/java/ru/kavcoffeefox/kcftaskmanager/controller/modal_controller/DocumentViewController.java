@@ -1,4 +1,4 @@
-package ru.kavcoffeefox.kcftaskmanager.controllers;
+package ru.kavcoffeefox.kcftaskmanager.controller.modal_controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -7,8 +7,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.SearchableComboBox;
+import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.*;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TagManagerHibernateImpl;
@@ -23,7 +25,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 
 @Slf4j
-public class DocumentViewController extends AbstractController{
+public class DocumentViewController extends AbstractController {
     private Document document;
 
     @FXML
@@ -65,6 +67,43 @@ public class DocumentViewController extends AbstractController{
         listTasks.setCellFactory(cell -> new TaskListCell());
         scbTag.setCellFactory(cell -> new TagListCell());
         listTags.setCellFactory(cell -> new TagListCell());
+
+        scbTask.setConverter(
+                new StringConverter<Task>() {
+                    @Override
+                    public String toString(Task task) {
+                        return task == null ? "" : task.getName();
+                    }
+
+                    @Override
+                    public Task fromString(String s) {
+                        return null;
+                    }
+                });
+        scbTag.setConverter(
+                new StringConverter<Tag>() {
+                    @Override
+                    public String toString(Tag tag) {
+                        return tag == null ? "" : tag.getName();
+                    }
+
+                    @Override
+                    public Tag fromString(String s) {
+                        return null;
+                    }
+                });
+        scbPerson.setConverter(
+                new StringConverter<Person>() {
+                    @Override
+                    public String toString(Person person) {
+                        return person == null ? "" : Person.getFIO(person);
+                    }
+
+                    @Override
+                    public Person fromString(String s) {
+                        return null;
+                    }
+                });
     }
 
     @FXML
@@ -110,11 +149,13 @@ public class DocumentViewController extends AbstractController{
             document.setPersons(new HashSet<>(listPersons.getItems()));
             document.setTasks(new HashSet<>(listTasks.getItems()));
             document.setTags(new HashSet<>(listTags.getItems()));
+            setOkClicked(true);
             closeDialogView();
         }
     }
     @FXML
     public void handleCansel() {
+        setOkClicked(false);
         closeDialogView();
     }
 
@@ -147,5 +188,4 @@ public class DocumentViewController extends AbstractController{
 
         return true;
     }
-
 }

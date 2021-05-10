@@ -1,9 +1,11 @@
-package ru.kavcoffeefox.kcftaskmanager.controllers;
+package ru.kavcoffeefox.kcftaskmanager.controller.modal_controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.StringConverter;
 import org.controlsfx.control.SearchableComboBox;
+import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
@@ -52,7 +54,18 @@ public class TaskViewController extends AbstractController {
 
         listPeople.setCellFactory(cell -> new PersonListCell());
         scbExecutors.setCellFactory(cell -> new PersonListCell());
+        scbExecutors.setConverter(
+                new StringConverter<Person>() {
+                    @Override
+                    public String toString(Person person) {
+                        return person == null ? "" : Person.getFIO(person);
+                    }
 
+                    @Override
+                    public Person fromString(String s) {
+                        return null;
+                    }
+                });
     }
 
     @FXML
@@ -77,12 +90,14 @@ public class TaskViewController extends AbstractController {
             task.setDeadline(datePickerDeadline.getValue());
             task.setExecutors(new HashSet<>(listPeople.getItems()));
 
+            setOkClicked(true);
             closeDialogView();
         }
     }
 
     @FXML
     private void handleCansel(){
+        setOkClicked(false);
         closeDialogView();
     }
 
