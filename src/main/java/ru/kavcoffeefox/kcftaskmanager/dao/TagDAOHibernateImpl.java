@@ -13,7 +13,7 @@ public class TagDAOHibernateImpl implements TagDAO{
     public boolean add(Tag tag) {
         try (Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()) {
             session.beginTransaction();
-            session.merge(tag);
+            session.saveOrUpdate(tag);
             session.getTransaction().commit();
         } catch (Exception e) {
             log.error(e.getMessage());

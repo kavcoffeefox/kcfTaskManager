@@ -60,7 +60,7 @@ public class DepartmentDAOHibernateImpl implements DepartmentDAO{
             Department department = session.get(Department.class, id);
             department.setName(item.getName());
             department.setFullname(item.getFullname());
-            session.update(department);
+            session.saveOrUpdate(department);
             session.getTransaction().commit();
             return true;
         }catch (Exception e){

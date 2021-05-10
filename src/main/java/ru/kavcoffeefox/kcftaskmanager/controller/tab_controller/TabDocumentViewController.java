@@ -49,7 +49,6 @@ public class TabDocumentViewController extends AbstractController {
             return new SimpleStringProperty(sb.toString());
         });
 
-//        actionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPath()));
         actionColumn.setCellFactory(new Callback<>() {
             @Override
             public TableCell<Document, String> call(final TableColumn<Document, String> param) {
@@ -105,7 +104,6 @@ public class TabDocumentViewController extends AbstractController {
             if (documentTable.getSelectionModel().getSelectedItem() != null) {
                 Document document = documentTable.getSelectionModel().getSelectedItem();
                 DocumentManagerHibernateImpl.getInstance().showDocumentView(this.getMainStage(), document);
-                documentManager.update(document.getId(), document);
                 documentTable.refresh();
             }
         });

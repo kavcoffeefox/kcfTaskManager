@@ -15,7 +15,7 @@ public class TaskDAOHibernateImpl implements TaskDAO {
     public boolean addTask(Task task) {
         try (Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()) {
             session.beginTransaction();
-            session.merge(task);
+            session.saveOrUpdate(task);
             session.getTransaction().commit();
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -64,6 +64,7 @@ public class TaskDAOHibernateImpl implements TaskDAO {
             localTask.setName(task.getName());
             localTask.setPeriod(task.getPeriod());
             localTask.setType(task.getType());
+            localTask.setTags(task.getTags());
             session.saveOrUpdate(localTask);
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -78,6 +79,11 @@ public class TaskDAOHibernateImpl implements TaskDAO {
         try (Session session = HibernateConnection.getInstance().getFactory().getCurrentSession()) {
             session.beginTransaction();
             List<Task> tasks = session.createQuery("from Task").getResultList();
+            tasks.forEach( task -> {
+                log.info(task.getExecutors().toString());
+                log.info(task.getTags().toString());
+                log.info(task.getDocuments().toString());
+            });
             session.getTransaction().commit();
             return tasks;
         } catch (Exception e) {

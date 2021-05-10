@@ -60,6 +60,9 @@ public class DocumentDAOHibernateImpl implements DocumentDAO {
             localDocument.setDescription(document.getDescription());
             localDocument.setPath(document.getPath());
             localDocument.setRequisite(document.getRequisite());
+            localDocument.setPersons(document.getPersons());
+            localDocument.setTags(document.getTags());
+            localDocument.setTasks(document.getTasks());
             session.saveOrUpdate(localDocument);
             session.getTransaction().commit();
         } catch (Exception e) {

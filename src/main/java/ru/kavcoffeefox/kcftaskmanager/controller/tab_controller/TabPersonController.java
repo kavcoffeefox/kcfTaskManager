@@ -91,4 +91,5 @@ public class TabPersonController extends AbstractController {
         personTableView.getItems().add(person);
         personTableView.refresh();
     }
+
 }

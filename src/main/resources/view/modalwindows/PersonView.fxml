@@ -49,9 +49,7 @@
       <Label contentDisplay="CENTER" text="Доп. информация" textAlignment="CENTER" GridPane.rowIndex="7" />
       <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
       <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="4">
-         <children>
-            <SearchableComboBox fx:id="department" maxHeight="26.0" HBox.hgrow="ALWAYS" />
-         </children>
+          <SearchableComboBox fx:id="department" maxHeight="26.0" HBox.hgrow="ALWAYS" />
       </HBox>
     </GridPane>
 </AnchorPane>
