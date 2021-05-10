@@ -60,6 +60,17 @@ public class DepartmentManagerHibernateImpl extends AbstractManager implements M
         }
     }
 
+    public Department showDepartmentView(Stage stage, Department department){
+        boolean isOk = showView(stage, department);
+        if (isOk) {
+            departmentDAO.update(department.getId(), department);
+            return department;
+        }
+        else {
+            return null;
+        }
+    }
+
     public static DepartmentManagerHibernateImpl getInstance() {
         if (INSTANCE == null)
             synchronized (DepartmentManagerHibernateImpl.class) {
