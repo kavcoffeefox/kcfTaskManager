@@ -54,19 +54,29 @@ public class DocumentManagerHibernateImpl extends AbstractManager implements Man
 
     public Document showDocumentView(Stage stage){
         Document document = new Document();
-        showView(stage, document);
-        documentDAO.add(document);
-        return document;
+        boolean isOk = showView(stage, document);
+        if (isOk) {
+            documentDAO.add(document);
+            return document;
+        }
+        else {
+            return null;
+        }
     }
 
     public Document showDocumentView(Stage stage, Document document){
-        showView(stage, document);
-        documentDAO.update(document.getId(), document);
-        return document;
+        boolean isOk = showView(stage, document);
+        if (isOk) {
+            documentDAO.update(document.getId(), document);
+            return document;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    protected void showView(Stage stage, SimpleItem item) {
-        showModalView(stage, "/view/modalwindows/DocumentView.fxml", item);
+    protected boolean showView(Stage stage, SimpleItem item) {
+        return showModalView(stage, "/view/modalwindows/DocumentView.fxml", item);
     }
 }

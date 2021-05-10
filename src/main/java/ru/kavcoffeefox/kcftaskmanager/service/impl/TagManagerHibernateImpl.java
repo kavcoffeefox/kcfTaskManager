@@ -42,8 +42,8 @@ public class TagManagerHibernateImpl extends AbstractManager implements Manager<
     }
 
     @Override
-    protected void showView(Stage stage, SimpleItem item) {
-        showModalView(stage, "/view/modalwindows/TagView.fxml", item);
+    protected boolean showView(Stage stage, SimpleItem item) {
+        return showModalView(stage, "/view/modalwindows/TagView.fxml", item);
     }
 
     public static TagManagerHibernateImpl getInstance() {
@@ -58,15 +58,25 @@ public class TagManagerHibernateImpl extends AbstractManager implements Manager<
 
     public Tag showTagView(Stage stage){
         Tag tag = new Tag();
-        showView(stage, tag);
-        tagDAO.add(tag);
-        return tag;
+        boolean isOk = showView(stage, tag);
+        if (isOk) {
+            tagDAO.add(tag);
+            return tag;
+        }
+        else {
+            return null;
+        }
     }
 
     public Tag showTagView(Stage stage, Tag tag){
-        showView(stage, tag);
-        tagDAO.update(tag.getId(), tag);
-        return tag;
+        boolean isOk = showView(stage, tag);
+        if (isOk) {
+            tagDAO.update(tag.getId(), tag);
+            return tag;
+        }
+        else {
+            return null;
+        }
     }
 
 }

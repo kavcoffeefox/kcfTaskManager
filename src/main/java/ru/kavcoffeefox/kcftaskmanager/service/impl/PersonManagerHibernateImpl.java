@@ -56,19 +56,29 @@ public class PersonManagerHibernateImpl extends AbstractManager implements Manag
 
     public Person showPersonView(Stage stage){
         Person person = new Person();
-        showView(stage, person);
-        personDAO.addPerson(person);
-        return person;
+        boolean isOk = showView(stage, person);
+        if (isOk) {
+            personDAO.addPerson(person);
+            return person;
+        }
+        else {
+            return null;
+        }
     }
 
     public Person showPersonView(Stage stage, Person person){
-        showView(stage, person);
-        personDAO.updatePerson(person.getId(), person);
-        return person;
+        boolean isOk = showView(stage, person);
+        if(isOk) {
+            personDAO.updatePerson(person.getId(), person);
+            return person;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public void showView(Stage stage, SimpleItem item) {
-        showModalView(stage, "/view/modalwindows/PersonView.fxml", item);
+    public boolean showView(Stage stage, SimpleItem item) {
+        return showModalView(stage, "/view/modalwindows/PersonView.fxml", item);
     }
 }

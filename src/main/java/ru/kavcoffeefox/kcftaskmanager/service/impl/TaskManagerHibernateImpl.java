@@ -100,20 +100,30 @@ public class TaskManagerHibernateImpl extends AbstractManager implements TaskMan
 
     public Task showTaskView(Stage stage){
         Task task = new Task();
-        showView(stage, task);
-        taskDAO.addTask(task);
-        return task;
+        boolean isOk = showView(stage, task);
+        if (isOk) {
+            taskDAO.addTask(task);
+            return task;
+        }
+        else {
+            return null;
+        }
     }
 
     public Task showTaskView(Stage stage, Task task){
-        showView(stage, task);
-        taskDAO.updateTask(task.getId(), task);
-        return task;
+        boolean isOk = showView(stage, task);
+        if (isOk) {
+            taskDAO.updateTask(task.getId(), task);
+            return task;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    protected void showView(Stage stage, SimpleItem item){
-        showModalView(stage, "/view/modalwindows/TaskView.fxml", item);
+    protected boolean showView(Stage stage, SimpleItem item){
+        return showModalView(stage, "/view/modalwindows/TaskView.fxml", item);
     }
 
 }

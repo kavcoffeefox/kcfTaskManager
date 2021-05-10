@@ -5,16 +5,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.kavcoffeefox.kcftaskmanager.controllers.AbstractController;
+import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 
 import java.io.IOException;
 
 public abstract class AbstractManager{
 
-    abstract protected void showView(Stage stage, SimpleItem item);
+    abstract protected boolean showView(Stage stage, SimpleItem item);
 
-    protected void showModalView(Stage stage, String resource, SimpleItem item){
+    protected boolean showModalView(Stage stage, String resource, SimpleItem item){
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(AbstractController.class.getResource(resource));
@@ -30,8 +30,10 @@ public abstract class AbstractManager{
             controller.setItem(item);
 
             dialogStage.showAndWait();
+            return controller.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
