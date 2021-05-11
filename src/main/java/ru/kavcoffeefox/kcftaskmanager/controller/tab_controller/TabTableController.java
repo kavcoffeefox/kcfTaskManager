@@ -78,6 +78,7 @@ public class TabTableController extends AbstractController {
                 });
 
                 taskTableView.setOnMouseExited(event -> tooltip.hide());
+                taskTableView.refresh();
             }
         });
 
