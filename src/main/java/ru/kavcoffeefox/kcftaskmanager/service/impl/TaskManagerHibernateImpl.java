@@ -59,28 +59,9 @@ public class TaskManagerHibernateImpl extends AbstractManager implements TaskMan
         return taskDAO.deleteTask(id);
     }
 
-    public boolean delete() {
-        if (currentTask != null) {
-            log.info(currentTask + " deleted!");
-            if (taskDAO.deleteTask(currentTask.getId())){
-                currentTask = null;
-                return true;
-            }else {
-                log.warn("current task doesn't deleted");
-            }
-        }
-        else {
-            log.warn("current task is null");
-        }
-        return false;
-    }
-
     @Override
     public boolean update(Integer id, Task task) {
-        boolean isUpdate = taskDAO.updateTask(id, task);
-        if (isUpdate) log.info(currentTask + " updated!");
-        else log.info(currentTask + "not updated!");
-        return isUpdate;
+        return taskDAO.updateTask(id, task);
     }
 
     @Override

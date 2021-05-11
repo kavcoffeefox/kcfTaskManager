@@ -2,6 +2,8 @@ package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -10,13 +12,17 @@ import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
+import ru.kavcoffeefox.kcftaskmanager.utils.ItemUtil;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class TabTableController extends AbstractController {
     private final Tooltip tooltip;
 
+    @FXML
+    private TextField searchField;
     @FXML
     private TableView<Task> taskTableView;
     @FXML
@@ -28,6 +34,7 @@ public class TabTableController extends AbstractController {
     @FXML
     private TableColumn<Task, String> taskDescriptionColumn;
 
+    private FilteredList<Task> filteredData;
 
     private final TaskManager taskManager = TaskManagerHibernateImpl.getInstance();
 
@@ -70,14 +77,11 @@ public class TabTableController extends AbstractController {
                         taskTableView.getSelectionModel().getSelectedItem().getExecutors()
                                 .forEach(person ->
                                         executors.append(Person.getFIO(person)).append("\n"));
-                        StringBuilder tags = new StringBuilder();
-                        taskTableView.getSelectionModel().getSelectedItem().getTags()
-                                .forEach(tag ->
-                                        tags.append("#").append(tag.getName()).append("  "));
+
                         tooltip.setText("Исполнитель/и:\n" + executors +
                                 "\nНазвание: " + taskTableView.getSelectionModel().getSelectedItem().getName() +
                                 "\nОписание:\n" + taskTableView.getSelectionModel().getSelectedItem().getDescription() +
-                                "\n\nТеги: " + tags);
+                                "\n\nТеги: " + ItemUtil.tagInOneLine(taskTableView.getSelectionModel().getSelectedItem()));
                         tooltip.setMaxSize(300, 500);
                         tooltip.show(taskTableView, event.getX(), event.getY());
                     }
@@ -100,8 +104,9 @@ public class TabTableController extends AbstractController {
         MenuItem itemAdd = new MenuItem("Добавить");
         itemAdd.setOnAction(event -> {
             Task task = TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage());
-            if (task != null)
-                taskTableView.getItems().add(task);
+            if (task != null) {
+                setItems();
+            }
             taskTableView.refresh();
         });
         MenuItem itemUpdate = new MenuItem("Редактировать");
@@ -121,13 +126,32 @@ public class TabTableController extends AbstractController {
             }
         });
         MenuItem itemRefresh = new MenuItem("Обновить данные");
-        itemRefresh.setOnAction(event -> taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll())));
+        itemRefresh.setOnAction(event -> setItems());
 
         contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemComplete, itemRefresh);
         taskTableView.setContextMenu(contextMenu);
+        setItems();
 
-        taskTableView.setOnMousePressed(event -> taskManager.setCurrentTask(taskTableView.getSelectionModel().getSelectedItem()));
-        taskTableView.setItems(FXCollections.observableArrayList(taskManager.getAll()));
+    }
+
+    private void setItems(){
+        filteredData = new FilteredList<>(FXCollections.observableArrayList(taskManager.getAll()), p -> true);
+        SortedList<Task> sortedData = new SortedList<>(filteredData);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(task -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (task.getName().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            } else if (task.getDescription().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            } else return ItemUtil.tagInOneLine(task).toLowerCase().contains(lowerCaseFilter);
+        }));
+        sortedData.comparatorProperty().bind(taskTableView.comparatorProperty());
+
+        taskTableView.setItems(sortedData);
     }
 
 }

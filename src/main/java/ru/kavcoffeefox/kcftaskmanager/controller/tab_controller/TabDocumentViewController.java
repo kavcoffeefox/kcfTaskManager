@@ -2,6 +2,8 @@ package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
@@ -12,6 +14,7 @@ import ru.kavcoffeefox.kcftaskmanager.entity.Document;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.service.Manager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.DocumentManagerHibernateImpl;
+import ru.kavcoffeefox.kcftaskmanager.utils.ItemUtil;
 
 import java.io.File;
 import java.net.URL;
@@ -33,6 +36,11 @@ public class TabDocumentViewController extends AbstractController {
     public TableColumn<Document, String> personColumn;
     @FXML
     public TableColumn<Document, String> actionColumn;
+
+    @FXML
+    public TextField searchField;
+
+    private FilteredList<Document> filteredData;
 
 
     @Override
@@ -96,7 +104,7 @@ public class TabDocumentViewController extends AbstractController {
         itemAdd.setOnAction(event -> {
             Document document = DocumentManagerHibernateImpl.getInstance().showDocumentView(this.getMainStage());
             if (document != null)
-                documentTable.getItems().add(document);
+                setItems();
             documentTable.refresh();
         });
         MenuItem itemUpdate = new MenuItem("Редактировать");
@@ -108,11 +116,31 @@ public class TabDocumentViewController extends AbstractController {
             }
         });
         MenuItem itemRefresh = new MenuItem("Обновить данные");
-        itemRefresh.setOnAction(event -> documentTable.setItems(FXCollections.observableArrayList(documentManager.getAll())));
+        itemRefresh.setOnAction(event -> setItems());
 
         contextMenu.getItems().addAll(itemDelete, itemAdd, itemUpdate, itemRefresh);
         documentTable.setContextMenu(contextMenu);
-        documentTable.getItems().addAll(documentManager.getAll());
+        setItems();
+    }
+
+    private void setItems(){
+        filteredData = new FilteredList<>(FXCollections.observableArrayList(documentManager.getAll()), p -> true);
+        SortedList<Document> sortedData = new SortedList<>(filteredData);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(document -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = newValue.toLowerCase();
+            if (document.getName().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            } else if (document.getDescription().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            } else return ItemUtil.tagInOneLine(document).toLowerCase().contains(lowerCaseFilter);
+        }));
+        sortedData.comparatorProperty().bind(documentTable.comparatorProperty());
+
+        documentTable.setItems(sortedData);
     }
 
     @FXML
