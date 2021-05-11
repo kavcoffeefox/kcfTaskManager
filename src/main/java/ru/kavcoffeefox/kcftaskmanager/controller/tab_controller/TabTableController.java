@@ -15,7 +15,6 @@ import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.utils.ItemUtil;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class TabTableController extends AbstractController {
@@ -38,15 +37,6 @@ public class TabTableController extends AbstractController {
 
     private final TaskManager taskManager = TaskManagerHibernateImpl.getInstance();
 
-    @Override
-    public void setMainStage(Stage mainStage) {
-        super.setMainStage(mainStage);
-    }
-
-    @Override
-    public Stage getMainStage() {
-        return super.getMainStage();
-    }
 
     public TabTableController() {
         tooltip = new Tooltip(null);
