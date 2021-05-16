@@ -2,10 +2,7 @@ package ru.kavcoffeefox.kcftaskmanager.controller.modal_controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +64,35 @@ public class DocumentViewController extends AbstractController {
         listTasks.setCellFactory(cell -> new TaskListCell());
         scbTag.setCellFactory(cell -> new TagListCell());
         listTags.setCellFactory(cell -> new TagListCell());
+
+
+        ContextMenu contextMenuPerson = new ContextMenu();
+        ContextMenu contextMenuTag = new ContextMenu();
+        ContextMenu contextMenuTask = new ContextMenu();
+
+        MenuItem itemPerson = new MenuItem("Удалить");
+        itemPerson.setOnAction(event -> {
+            if (listPersons.getSelectionModel().getSelectedItem() != null)
+                listPersons.getItems().remove(listPersons.getSelectionModel().getSelectedItem());
+        });
+
+        MenuItem itemDeleteTag = new MenuItem("Удалить");
+        itemDeleteTag.setOnAction(event -> {
+            if (listTags.getSelectionModel().getSelectedItem() != null)
+                listTags.getItems().remove(listTags.getSelectionModel().getSelectedItem());
+        });
+
+        MenuItem itemTask = new MenuItem("Удалить");
+        itemTask.setOnAction(event -> {
+            if (listTasks.getSelectionModel().getSelectedItem() != null)
+                listTasks.getItems().remove(listTasks.getSelectionModel().getSelectedItem());
+        });
+        contextMenuPerson.getItems().addAll(itemPerson);
+        contextMenuTag.getItems().addAll(itemDeleteTag);
+        contextMenuTask.getItems().addAll(itemTask);
+        this.listTags.setContextMenu(contextMenuTag);
+        this.listPersons.setContextMenu(contextMenuPerson);
+        this.listTasks.setContextMenu(contextMenuTask);
 
         scbTask.setConverter(
                 new StringConverter<>() {

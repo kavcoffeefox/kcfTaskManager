@@ -52,7 +52,16 @@ public class TaskViewController extends AbstractController {
                 listPeople.getItems().remove(listPeople.getSelectionModel().getSelectedItem());
         });
 
+        ContextMenu contextMenuTag = new ContextMenu();
+
+        MenuItem itemDeleteTag = new MenuItem("Удалить");
+        itemDeleteTag.setOnAction(event -> {
+            if (listTags.getSelectionModel().getSelectedItem() != null)
+                listTags.getItems().remove(listTags.getSelectionModel().getSelectedItem());
+        });
         contextMenu.getItems().addAll(item1);
+        contextMenuTag.getItems().addAll(itemDeleteTag);
+        this.listTags.setContextMenu(contextMenuTag);
         this.listPeople.setContextMenu(contextMenu);
 
         scbExecutors.setItems(FXCollections.observableArrayList(PersonManagerHibernateImpl.getInstance().getAll()));
