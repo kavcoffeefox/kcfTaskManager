@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.tab_controller.TabOtherController">
+   <center>
+      <Accordion BorderPane.alignment="CENTER">
+        <panes>
+            <TitledPane animated="false" text="Отделы">
+                <BorderPane>
+                    <center>
+                      <ListView fx:id="departments" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+            </TitledPane>
+            <TitledPane animated="false" text="Теги">
+                <BorderPane>
+                    <center>
+                      <ListView fx:id="tags" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+            </TitledPane>
+        </panes>
+      </Accordion>
+   </center>
+</BorderPane>

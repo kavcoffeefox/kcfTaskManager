@@ -15,7 +15,7 @@ import ru.kavcoffeefox.kcftaskmanager.service.impl.TagManagerHibernateImpl;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TabDepartmentController extends AbstractController {
+public class TabOtherController extends AbstractController {
 
     @FXML
     private ListView<Department> departments;

@@ -87,14 +87,14 @@ public class Main extends Application {
     public void showTabSetting() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/view/tabs/TabDepartment.fxml"));
+            loader.setLocation(Main.class.getResource("/view/tabs/TabOther.fxml"));
             BorderPane viewSetting = loader.load();
 
             TabPane tabPane = (TabPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0);
             tabPane.getTabs().get(4).setContent(viewSetting);
             BorderPane.setMargin(viewSetting, new Insets(0, 0, 0, 0));
-            TabDepartmentController tabDepartmentController = loader.getController();
-            tabDepartmentController.setMainStage(this.primaryStage);
+            TabOtherController tabOtherController = loader.getController();
+            tabOtherController.setMainStage(this.primaryStage);
             logger.info("Tab with setting view is showed!!");
         } catch (IOException e) {
             e.printStackTrace();
