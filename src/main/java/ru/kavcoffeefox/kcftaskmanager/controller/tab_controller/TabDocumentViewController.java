@@ -2,12 +2,12 @@ package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import java.awt.Desktop;
 
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Document;
@@ -16,7 +16,6 @@ import ru.kavcoffeefox.kcftaskmanager.service.Manager;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.DocumentManagerHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.utils.ItemUtil;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,7 +38,7 @@ public class TabDocumentViewController extends AbstractController {
 
     @FXML
     public TextField searchField;
-
+    private ObservableList<Document> documentList;
     private FilteredList<Document> filteredData;
 
 
@@ -68,21 +67,7 @@ public class TabDocumentViewController extends AbstractController {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                            btn.setOnAction(actionEvent -> {
-                                if (Desktop.isDesktopSupported()) {
-                                    if ( documentTable.getSelectionModel().getSelectedItem() != null)
-                                        Desktop.getDesktop().browseFileDirectory(new File(documentTable.getSelectionModel().getSelectedItem().getPath()));
-                                } else {
-                                    System.out.println("None sup");
-                                }
-                            });
-                            setGraphic(btn);
-                            setText(null);
-                        }
+
                     }
                 };
                 return cell;
@@ -96,7 +81,7 @@ public class TabDocumentViewController extends AbstractController {
         itemDelete.setOnAction(event -> {
             if (documentTable.getSelectionModel().getSelectedItem() != null) {
                 documentManager.delete(documentTable.getSelectionModel().getSelectedItem().getId());
-                documentTable.getItems().remove(documentTable.getSelectionModel().getSelectedItem());
+                documentList.remove(documentTable.getSelectionModel().getSelectedItem());
                 documentTable.refresh();
             }
         });
@@ -124,7 +109,8 @@ public class TabDocumentViewController extends AbstractController {
     }
 
     private void setItems(){
-        filteredData = new FilteredList<>(FXCollections.observableArrayList(documentManager.getAll()), p -> true);
+        documentList=FXCollections.observableArrayList(documentManager.getAll());
+        filteredData = new FilteredList<>(documentList, p -> true);
         SortedList<Document> sortedData = new SortedList<>(filteredData);
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(document -> {
             if (newValue == null || newValue.isEmpty()) {

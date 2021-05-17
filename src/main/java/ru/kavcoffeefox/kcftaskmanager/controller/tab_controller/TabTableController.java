@@ -2,11 +2,11 @@ package ru.kavcoffeefox.kcftaskmanager.controller.tab_controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
@@ -33,6 +33,7 @@ public class TabTableController extends AbstractController {
     @FXML
     private TableColumn<Task, String> taskDescriptionColumn;
 
+    private ObservableList<Task> taskList;
     private FilteredList<Task> filteredData;
 
     private final TaskManager taskManager = TaskManagerHibernateImpl.getInstance();
@@ -88,7 +89,7 @@ public class TabTableController extends AbstractController {
         itemDelete.setOnAction(event -> {
             if (taskTableView.getSelectionModel().getSelectedItem() != null) {
                 taskManager.delete(taskTableView.getSelectionModel().getSelectedItem().getId());
-                taskTableView.getItems().remove(taskTableView.getSelectionModel().getSelectedItem());
+                taskList.remove(taskTableView.getSelectionModel().getSelectedItem());
                 taskTableView.refresh();
             }
         });
@@ -126,7 +127,8 @@ public class TabTableController extends AbstractController {
     }
 
     private void setItems(){
-        filteredData = new FilteredList<>(FXCollections.observableArrayList(taskManager.getAll()), p -> true);
+        taskList = FXCollections.observableArrayList(taskManager.getAll());
+        filteredData = new FilteredList<>(taskList, p -> true);
         SortedList<Task> sortedData = new SortedList<>(filteredData);
         searchField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(task -> {
             if (newValue == null || newValue.isEmpty()) {
