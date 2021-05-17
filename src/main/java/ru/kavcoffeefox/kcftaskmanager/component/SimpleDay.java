@@ -25,7 +25,12 @@ public class SimpleDay extends BorderPane {
         taskManager = tm;
         tooltip.setWrapText(true);
         date = localDate;
-        this.setDate(Objects.requireNonNullElseGet(localDate, LocalDate::now));
+        if (localDate != null){
+            this.setDate(localDate);
+        }
+        else {
+            this.setDate(LocalDate.now());
+        }
         this.setTop(lblDayData);
         this.setCenter(tasksList);
 
@@ -43,7 +48,7 @@ public class SimpleDay extends BorderPane {
             }
         });
 
-        tasksList.setCellFactory(cell -> new ListCell<>() {
+        tasksList.setCellFactory(cell -> new ListCell<Task>() {
             @Override
             protected void updateItem(Task task, boolean b) {
                 super.updateItem(task, b);

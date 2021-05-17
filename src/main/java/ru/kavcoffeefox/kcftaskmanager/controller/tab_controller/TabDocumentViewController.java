@@ -56,10 +56,10 @@ public class TabDocumentViewController extends AbstractController {
             return new SimpleStringProperty(sb.toString());
         });
 
-        actionColumn.setCellFactory(new Callback<>() {
+        actionColumn.setCellFactory(new Callback<TableColumn<Document, String>, TableCell<Document, String>>() {
             @Override
             public TableCell<Document, String> call(final TableColumn<Document, String> param) {
-                final TableCell<Document, String> cell = new TableCell<>() {
+                final TableCell<Document, String> cell = new TableCell<Document, String>() {
 
                     final Button btn = new Button("Открыть папку");
 

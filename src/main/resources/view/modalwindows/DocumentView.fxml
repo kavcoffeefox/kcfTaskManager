@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import org.controlsfx.control.SearchableComboBox?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="672.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.modal_controller.DocumentViewController">
     <BorderPane layoutX="285.0" layoutY="73.0" prefHeight="438.0" prefWidth="363.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
@@ -56,7 +56,7 @@
                        <top>
                            <HBox BorderPane.alignment="CENTER">
                                <Label prefHeight="17.0" prefWidth="141.0" text="Сотрудники" />
-                               <SearchableComboBox fx:id="scbPerson" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                               <ComboBox fx:id="scbPerson" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                <Button mnemonicParsing="false" onAction="#handleAddPerson" text="+" />
                                <Button mnemonicParsing="false" onAction="#handleNewPerson" text="Новый сотрудник" />
                            </HBox>
@@ -69,7 +69,7 @@
                        <top>
                            <HBox BorderPane.alignment="CENTER">
                                <Label prefHeight="17.0" prefWidth="141.0" text="Связанные задачи" />
-                               <SearchableComboBox fx:id="scbTask" HBox.hgrow="ALWAYS" />
+                               <ComboBox fx:id="scbTask" HBox.hgrow="ALWAYS" />
                                <Button mnemonicParsing="false" onAction="#handleAddTask" text="+" />
                                <Button mnemonicParsing="false" onAction="#handleNewTask" text="Новая задача" />
                            </HBox>
@@ -82,7 +82,7 @@
                        <top>
                            <HBox BorderPane.alignment="CENTER">
                                <Label prefHeight="17.0" prefWidth="141.0" text="Теги" />
-                               <SearchableComboBox fx:id="scbTag" HBox.hgrow="ALWAYS" />
+                               <ComboBox fx:id="scbTag" HBox.hgrow="ALWAYS" />
                                <Button mnemonicParsing="false" onAction="#handleAddTag" text="+" />
                                <Button mnemonicParsing="false" onAction="#handleNewTag" text="Новый тег" />
                            </HBox>

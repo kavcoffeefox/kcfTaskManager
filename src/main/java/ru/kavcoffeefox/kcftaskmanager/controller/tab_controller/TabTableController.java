@@ -57,7 +57,7 @@ public class TabTableController extends AbstractController {
         });
         taskDescriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
 
-        taskTableView.setRowFactory((TableView<Task> tv) -> new TableRow<>() {
+        taskTableView.setRowFactory((TableView<Task> tv) -> new TableRow<Task>() {
             @Override
             protected void updateItem(Task item, boolean empty) {
 

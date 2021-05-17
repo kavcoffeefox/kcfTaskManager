@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.controlsfx.control.SearchableComboBox;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.*;
 import ru.kavcoffeefox.kcftaskmanager.service.impl.PersonManagerHibernateImpl;
@@ -34,11 +33,11 @@ public class DocumentViewController extends AbstractController {
     @FXML
     public DatePicker datePickerDate;
     @FXML
-    public SearchableComboBox<Person> scbPerson;
+    public ComboBox<Person> scbPerson;
     @FXML
-    public SearchableComboBox<Task> scbTask;
+    public ComboBox<Task> scbTask;
     @FXML
-    public SearchableComboBox<Tag> scbTag;
+    public ComboBox<Tag> scbTag;
     @FXML
     public ListView<Person> listPersons;
     @FXML
@@ -94,42 +93,6 @@ public class DocumentViewController extends AbstractController {
         this.listPersons.setContextMenu(contextMenuPerson);
         this.listTasks.setContextMenu(contextMenuTask);
 
-        scbTask.setConverter(
-                new StringConverter<>() {
-                    @Override
-                    public String toString(Task task) {
-                        return task == null ? "" : task.getName();
-                    }
-
-                    @Override
-                    public Task fromString(String s) {
-                        return null;
-                    }
-                });
-        scbTag.setConverter(
-                new StringConverter<>() {
-                    @Override
-                    public String toString(Tag tag) {
-                        return tag == null ? "" : tag.getName();
-                    }
-
-                    @Override
-                    public Tag fromString(String s) {
-                        return null;
-                    }
-                });
-        scbPerson.setConverter(
-                new StringConverter<>() {
-                    @Override
-                    public String toString(Person person) {
-                        return person == null ? "" : Person.getFIO(person);
-                    }
-
-                    @Override
-                    public Person fromString(String s) {
-                        return null;
-                    }
-                });
     }
 
     @FXML

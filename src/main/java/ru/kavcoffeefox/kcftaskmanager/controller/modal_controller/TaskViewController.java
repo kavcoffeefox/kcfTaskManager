@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
-import org.controlsfx.control.SearchableComboBox;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
@@ -31,7 +30,7 @@ public class TaskViewController extends AbstractController {
     @FXML
     private DatePicker datePickerDeadline;
     @FXML
-    public SearchableComboBox<Tag> scbTag;
+    public ComboBox<Tag> scbTag;
     @FXML
     private TextArea textAreaDescription;
     @FXML
@@ -39,7 +38,7 @@ public class TaskViewController extends AbstractController {
     @FXML
     private ListView<Tag> listTags;
     @FXML
-    private SearchableComboBox<Person> scbExecutors;
+    private ComboBox<Person> scbExecutors;
 
 
     @Override
@@ -70,7 +69,7 @@ public class TaskViewController extends AbstractController {
         listPeople.setCellFactory(cell -> new PersonListCell());
         scbExecutors.setCellFactory(cell -> new PersonListCell());
         scbExecutors.setConverter(
-                new StringConverter<>() {
+                new StringConverter<Person>() {
                     @Override
                     public String toString(Person person) {
                         return person == null ? "" : Person.getFIO(person);
@@ -81,12 +80,8 @@ public class TaskViewController extends AbstractController {
                         return null;
                     }
                 });
-
-        scbTag.setCellFactory(cell -> new TagListCell());
-        listTags.setCellFactory(cell -> new TagListCell());
-
         scbTag.setConverter(
-                new StringConverter<>() {
+                new StringConverter<Tag>() {
                     @Override
                     public String toString(Tag tag) {
                         return tag == null ? "" : tag.getName();
@@ -97,6 +92,9 @@ public class TaskViewController extends AbstractController {
                         return null;
                     }
                 });
+        scbTag.setCellFactory(cell -> new TagListCell());
+        listTags.setCellFactory(cell -> new TagListCell());
+
 
         scbTag.setItems(FXCollections.observableArrayList(TagManagerHibernateImpl.getInstance().getAll()));
     }

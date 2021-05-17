@@ -14,8 +14,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import org.controlsfx.control.SearchableComboBox?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane prefHeight="494.0" prefWidth="707.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kavcoffeefox.kcftaskmanager.controller.modal_controller.TaskViewController">
     <BorderPane layoutX="285.0" layoutY="73.0" prefHeight="438.0" prefWidth="363.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
@@ -46,7 +46,7 @@
                         </GridPane.margin>
                     </DatePicker>
                     <HBox GridPane.columnIndex="1" GridPane.rowIndex="4">
-                     <SearchableComboBox fx:id="scbExecutors" />
+                     <ComboBox fx:id="scbExecutors" />
                         <Button mnemonicParsing="false" onAction="#handleAddExecutor" text="+" />
                      <Button mnemonicParsing="false" onAction="#handleNewPerson" text="Новый" />
                     </HBox>
@@ -72,7 +72,7 @@
                              <top>
                                  <HBox BorderPane.alignment="CENTER">
                                      <Label prefHeight="17.0" prefWidth="141.0" text="Теги"/>
-                                     <SearchableComboBox fx:id="scbTag" HBox.hgrow="ALWAYS"/>
+                                     <ComboBox fx:id="scbTag" HBox.hgrow="ALWAYS"/>
                                      <Button mnemonicParsing="false" onAction="#handleAddTag" text="+"/>
                                      <Button mnemonicParsing="false" onAction="#handleNewTag" text="Новый тег"/>
                                  </HBox>

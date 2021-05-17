@@ -2,11 +2,11 @@ package ru.kavcoffeefox.kcftaskmanager.controller.modal_controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
-import org.controlsfx.control.SearchableComboBox;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Department;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
@@ -30,7 +30,7 @@ public class PersonViewController extends AbstractController {
     @FXML
     private DatePicker birthDay;
     @FXML
-    private SearchableComboBox<Department> department;
+    private ComboBox<Department> department;
     @FXML
     private TextField position;
     @FXML
@@ -43,18 +43,6 @@ public class PersonViewController extends AbstractController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         department.setCellFactory(cell -> new DepartmentListCell());
 
-        department.setConverter(
-                new StringConverter<>() {
-                    @Override
-                    public String toString(Department department) {
-                        return department == null ? "" : department.getName();
-                    }
-
-                    @Override
-                    public Department fromString(String s) {
-                        return null;
-                    }
-                });
     }
 
     @FXML
