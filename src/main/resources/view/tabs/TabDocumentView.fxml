@@ -19,7 +19,7 @@
                    <TableColumn fx:id="descriptionColumn" minWidth="100.0" prefWidth="75.0" text="Описание" />
                    <TableColumn fx:id="dateColumn" minWidth="100.0" prefWidth="75.0" text="Дата" />
                    <TableColumn fx:id="personColumn" minWidth="100.0" prefWidth="75.0" text="Лица" />
-                   <TableColumn fx:id="actionColumn" minWidth="100.0" prefWidth="75.0" text="Действия" />
+                   <TableColumn fx:id="actionColumn" minWidth="100.0" prefWidth="75.0" text="Действия" visible="false" />
                </columns>
               <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
