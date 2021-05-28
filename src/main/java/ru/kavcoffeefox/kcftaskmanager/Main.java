@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
+import ru.kavcoffeefox.kcftaskmanager.service.TrayManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -29,11 +30,14 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         this.primaryStage = stage;
-        this.primaryStage.setTitle("Task manager");
+        this.primaryStage.setTitle("Центр управления");
+        TrayManager.getInstance(primaryStage).showInfoMessage("Центр управления запущен!!!", "Загружается база данных");
         initRootLayout();
         showMainTabsView();
-
+        this.primaryStage.getScene().getStylesheets().add(Main.class.getResource("/css/style.css").toExternalForm());
     }
+
+
 
     public void initRootLayout() {
         try {
