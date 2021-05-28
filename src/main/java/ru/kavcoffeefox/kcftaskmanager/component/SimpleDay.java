@@ -32,25 +32,25 @@ public class SimpleDay extends BorderPane {
 
         tasksList.setStyle("-fx-background-color: #FFFAFA;" +
                 "-fx-border-color: black;");
-        tasksList.setOnMousePressed(event -> {
-            if (tasksList.getSelectionModel().getSelectedItem() != null) {
-                StringBuilder executors = new StringBuilder();
-                tasksList.getSelectionModel().getSelectedItem().getExecutors()
-                        .forEach(person ->
-                                executors.append(Person.getFIO(person)).append("\n"));
-                tooltip.setText("Исполнитель/и:\n" + executors +
-                        "\nНазвание: " + tasksList.getSelectionModel().getSelectedItem().getName() +
-                        "\nОписание:\n" + tasksList.getSelectionModel().getSelectedItem().getDescription());
-                tooltip.setMaxSize(300, 500);
-                tooltip.show(tasksList, event.getX(), event.getY());
-            }
-        });
 
         tasksList.setCellFactory(cell -> new ListCell<>() {
             @Override
             protected void updateItem(Task task, boolean empty) {
                 super.updateItem(task, empty);
 
+                setOnMousePressed(event -> {
+                    if (tasksList.getSelectionModel().getSelectedItem() != null) {
+                        StringBuilder executors = new StringBuilder();
+                        tasksList.getSelectionModel().getSelectedItem().getExecutors()
+                                .forEach(person ->
+                                        executors.append(Person.getFIO(person)).append("\n"));
+                        tooltip.setText("Исполнитель/и:\n" + executors +
+                                "\nНазвание: " + tasksList.getSelectionModel().getSelectedItem().getName() +
+                                "\nОписание:\n" + tasksList.getSelectionModel().getSelectedItem().getDescription());
+                        tooltip.setMaxSize(300, 500);
+                        tooltip.show(tasksList, event.getX(), event.getY());
+                    }
+                });
                 if (empty || task == null) {
                     setText("");
                     getStyleClass().clear();
