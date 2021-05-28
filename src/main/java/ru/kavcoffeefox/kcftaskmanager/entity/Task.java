@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,15 +66,6 @@ public class Task implements SimpleItem {
 
     public void addExecutor(Person executor) {
         executors.add(executor);
-    }
-
-    public void setComplete(boolean isComplete){
-        if (isComplete && period > 0){
-            deadline = deadline.plus(period, ChronoUnit.DAYS);
-            complete = false;
-        } else {
-            complete = true;
-        }
     }
 
     public Task(String name, int period, LocalDate deadline, String description, String type, boolean complete) {
