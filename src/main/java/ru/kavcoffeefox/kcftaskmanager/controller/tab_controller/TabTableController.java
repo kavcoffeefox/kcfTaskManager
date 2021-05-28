@@ -7,6 +7,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Callback;
 import ru.kavcoffeefox.kcftaskmanager.controller.AbstractController;
 import ru.kavcoffeefox.kcftaskmanager.entity.Person;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
@@ -113,8 +114,11 @@ public class TabTableController extends AbstractController {
         MenuItem itemComplete = new MenuItem("Завершить");
         itemComplete.setOnAction(event -> {
             if (taskTableView.getSelectionModel().getSelectedItem() != null) {
-                taskTableView.getSelectionModel().getSelectedItem().setComplete(true);
-                taskManager.update(taskTableView.getSelectionModel().getSelectedItem().getId(), taskTableView.getSelectionModel().getSelectedItem());
+                if (!taskTableView.getSelectionModel().getSelectedItem().isComplete()) {
+                    taskTableView.getSelectionModel().getSelectedItem().setComplete(true);
+                    taskManager.complete(taskTableView.getSelectionModel().getSelectedItem().getId());
+                    setItems();
+                }
             }
         });
         MenuItem itemRefresh = new MenuItem("Обновить данные");
@@ -124,6 +128,30 @@ public class TabTableController extends AbstractController {
         taskTableView.setContextMenu(contextMenu);
         setItems();
 
+        taskTableView.setRowFactory(new Callback<TableView<Task>, TableRow<Task>>() {
+            @Override
+            public TableRow<Task> call(TableView<Task> tableView) {
+                final TableRow<Task> row = new TableRow<Task>() {
+                    @Override
+                    protected void updateItem(Task task, boolean empty){
+                        super.updateItem(task, empty);
+                        if (task != null && task.isComplete()) {
+                            getStyleClass().clear();
+                            getStyleClass().add("isComplete");
+                        } else  if (task != null && !task.isComplete()){
+                            getStyleClass().clear();
+                            getStyleClass().add("notComplete");
+                        }
+                        else {
+                            getStyleClass().clear();
+                        }
+                    }
+                };
+
+                return row;
+            }
+        });
+        TaskManagerHibernateImpl.getInstance().showTaskStatistic();
     }
 
     private void setItems(){

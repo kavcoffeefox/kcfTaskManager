@@ -7,8 +7,10 @@ import ru.kavcoffeefox.kcftaskmanager.dao.TaskDAOHibernateImpl;
 import ru.kavcoffeefox.kcftaskmanager.entity.SimpleItem;
 import ru.kavcoffeefox.kcftaskmanager.entity.Task;
 import ru.kavcoffeefox.kcftaskmanager.service.TaskManager;
+import ru.kavcoffeefox.kcftaskmanager.service.TrayManager;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,18 +18,6 @@ import java.util.stream.Collectors;
 public class TaskManagerHibernateImpl extends AbstractManager implements TaskManager {
     private volatile static TaskManagerHibernateImpl INSTANCE = null;
     private final TaskDAO taskDAO;
-
-    private Task currentTask;
-
-    public void setCurrentTask(Task task){
-        log.info(task +" is current!");
-        currentTask=task;
-    }
-
-    public Task getCurrentTask(){
-        log.info(String.valueOf(currentTask));
-        return currentTask;
-    }
 
     public static TaskManagerHibernateImpl getInstance() {
         if (INSTANCE == null)
@@ -107,4 +97,30 @@ public class TaskManagerHibernateImpl extends AbstractManager implements TaskMan
         return showModalView(stage, "/view/modalwindows/TaskView.fxml", item);
     }
 
+    @Override
+    public boolean complete(Integer id) {
+        Task task = taskDAO.getTask(id);
+        if (task.getPeriod() > 0) {
+            Task localTask = new Task();
+            localTask.setComplete(false);
+            localTask.setDeadline( task.getDeadline().plusDays(task.getPeriod()));
+            localTask.setDescription(task.getDescription());
+            localTask.setExecutors(new HashSet<>(task.getExecutors()));
+            localTask.setName(task.getName());
+            localTask.setPeriod(task.getPeriod());
+            localTask.setType(task.getType());
+            localTask.setTags(task.getTags());
+            taskDAO.addTask(localTask);
+        }
+        task.setComplete(true);
+        return taskDAO.updateTask(id, task);
+    }
+    public void showTaskStatistic(){
+        List<Task> tasks = taskDAO.getAllTask();
+        TrayManager.getInstance().showMessage("На сегодняшний день",
+                "Запланировано задач: " + tasks.stream().filter(task -> !task.isComplete()).filter(task -> LocalDate.now().isEqual(task.getDeadline())).count()
+                        + " Уже исполнено: " + tasks.stream().filter(Task::isComplete).filter(task -> LocalDate.now().isEqual(task.getDeadline())).count()
+                        + " Не исполнено задач до текущего дня: " + tasks.stream().filter(task -> !task.isComplete()).filter(task -> LocalDate.now().isAfter(task.getDeadline())).count()
+        );
+    }
 }

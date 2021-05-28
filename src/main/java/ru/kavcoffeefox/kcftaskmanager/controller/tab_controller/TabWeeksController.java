@@ -55,8 +55,10 @@ public class TabWeeksController extends AbstractController {
     private void initDays(LocalDate tempLocalDate) {
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 7; j++) {
-                listSimpleDays.add(new SimpleDay(tempLocalDate.plusDays((i * 7) + j), taskManager));
-                gridPane.add(listSimpleDays.get((i * 7) + j), j, i);
+                SimpleDay simpleDay = new SimpleDay(tempLocalDate.plusDays((i * 7) + j), taskManager);
+                simpleDay.setMainStage(this.getMainStage());
+                listSimpleDays.add(simpleDay);
+                gridPane.add(simpleDay, j, i);
             }
     }
 
@@ -65,9 +67,13 @@ public class TabWeeksController extends AbstractController {
             listSimpleDays.get(i).setDate(startDay.plusDays(i));
         }
     }
-
+    private void refreshDays() {
+        for (int i = 0; i < 28; i++) {
+            listSimpleDays.get(i).refresh();
+        }
+    }
     public void showData() {
-        updateDaysDate();
+        refreshDays();
     }
 
     private LocalDate getFirstDayOfTheWeek(LocalDate localDate) {

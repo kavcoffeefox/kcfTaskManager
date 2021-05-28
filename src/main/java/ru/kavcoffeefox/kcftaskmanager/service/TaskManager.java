@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface TaskManager extends Manager<Task,Integer> {
 
-    void setCurrentTask(Task task);
-    Task getCurrentTask();
-
     boolean add(Task task);
 
     Task get(Integer id);
@@ -19,6 +16,8 @@ public interface TaskManager extends Manager<Task,Integer> {
     boolean delete(Integer id);
 
     boolean update(Integer id, Task task);
+
+    boolean complete(Integer id);
 
     List<Task> getAll();
     List<Task> tasks(LocalDate deadline);

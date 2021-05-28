@@ -24,7 +24,7 @@ public abstract class AbstractManager{
             dialogStage.initOwner(stage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
-
+            dialogStage.getScene().getStylesheets().add(AbstractManager.class.getResource("/css/style.css").toExternalForm());
             AbstractController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setItem(item);

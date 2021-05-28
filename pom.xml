@@ -83,6 +83,12 @@
             <version>11.1.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.dustinredmond.fxtrayicon/FXTrayIcon -->
+        <dependency>
+            <groupId>com.dustinredmond.fxtrayicon</groupId>
+            <artifactId>FXTrayIcon</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
     </dependencies>
 </project>

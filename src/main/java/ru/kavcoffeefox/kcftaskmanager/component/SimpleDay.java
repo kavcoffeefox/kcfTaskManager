@@ -11,15 +11,16 @@ import ru.kavcoffeefox.kcftaskmanager.service.impl.TaskManagerHibernateImpl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Objects;
 
 public class SimpleDay extends BorderPane {
-    private ListView<Task> tasksList = new ListView<>();
-    private Label lblDayData = new Label();
-    private Tooltip tooltip = new Tooltip(null);
+
+    private Stage mainStage;
+    private final ListView<Task> tasksList = new ListView<>();
+    private final Label lblDayData = new Label();
+    private final Tooltip tooltip = new Tooltip(null);
     private LocalDate date;
-    private TaskManager taskManager;
+    private final TaskManager taskManager;
 
     public SimpleDay(LocalDate localDate, TaskManager tm) {
         taskManager = tm;
@@ -29,6 +30,8 @@ public class SimpleDay extends BorderPane {
         this.setTop(lblDayData);
         this.setCenter(tasksList);
 
+        tasksList.setStyle("-fx-background-color: #FFFAFA;" +
+                "-fx-border-color: black;");
         tasksList.setOnMousePressed(event -> {
             if (tasksList.getSelectionModel().getSelectedItem() != null) {
                 StringBuilder executors = new StringBuilder();
@@ -45,19 +48,30 @@ public class SimpleDay extends BorderPane {
 
         tasksList.setCellFactory(cell -> new ListCell<>() {
             @Override
-            protected void updateItem(Task task, boolean b) {
-                super.updateItem(task, b);
+            protected void updateItem(Task task, boolean empty) {
+                super.updateItem(task, empty);
 
-                if (b || task == null) {
-                    setText(" ");
+                if (empty || task == null) {
+                    setText("");
+                    getStyleClass().clear();
                 } else {
                     setText(task.getName());
+                    if (task.isComplete()) {
+                        getStyleClass().add("isComplete");
+                    }
+                    else {
+                        getStyleClass().add("notComplete");
+                    }
                 }
             }
         });
 
         tasksList.setOnMouseExited(event -> tooltip.hide());
-
+        tasksList.focusedProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue) {
+                tasksList.getSelectionModel().clearSelection();
+            }
+        });
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem itemDelete = new MenuItem("Удалить");
@@ -65,21 +79,21 @@ public class SimpleDay extends BorderPane {
             if (tasksList.getSelectionModel().getSelectedItem() != null) {
                 taskManager.delete(tasksList.getSelectionModel().getSelectedItem().getId());
                 tasksList.getItems().remove(tasksList.getSelectionModel().getSelectedItem());
-                tasksList.refresh();
+                refresh();
             }
         });
         MenuItem itemAdd = new MenuItem("Добавить");
         itemAdd.setOnAction(event -> {
-            Task task = TaskManagerHibernateImpl.getInstance().showTaskView(new Stage());
+            Task task = TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage());
             if (task != null)
                 tasksList.getItems().add(task);
-            tasksList.refresh();
+            refresh();
         });
         MenuItem itemUpdate = new MenuItem("Редактировать");
         itemUpdate.setOnAction(event -> {
             if (tasksList.getSelectionModel().getSelectedItem() != null) {
                 Task task = tasksList.getSelectionModel().getSelectedItem();
-                TaskManagerHibernateImpl.getInstance().showTaskView(new Stage(), task);
+                TaskManagerHibernateImpl.getInstance().showTaskView(this.getMainStage(), task);
                 taskManager.update(task.getId(), task);
                 tasksList.refresh();
             }
@@ -87,8 +101,11 @@ public class SimpleDay extends BorderPane {
         MenuItem itemComplete = new MenuItem("Завершить");
         itemComplete.setOnAction(event -> {
             if (tasksList.getSelectionModel().getSelectedItem() != null) {
-                tasksList.getSelectionModel().getSelectedItem().setComplete(true);
-                taskManager.update(tasksList.getSelectionModel().getSelectedItem().getId(), tasksList.getSelectionModel().getSelectedItem());
+                if (!tasksList.getSelectionModel().getSelectedItem().isComplete()) {
+                    tasksList.getSelectionModel().getSelectedItem().setComplete(true);
+                    taskManager.complete(tasksList.getSelectionModel().getSelectedItem().getId());
+                    refresh();
+                }
             }
         });
 
@@ -111,4 +128,12 @@ public class SimpleDay extends BorderPane {
             else this.setStyle("-fx-background-color: #99ffff");
         }
     }
+    public void refresh(){
+        tasksList.setItems(FXCollections.observableArrayList(taskManager.tasks(date)));
+        tasksList.refresh();
+    }
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
+    }
+    public Stage getMainStage() {return this.mainStage;}
 }

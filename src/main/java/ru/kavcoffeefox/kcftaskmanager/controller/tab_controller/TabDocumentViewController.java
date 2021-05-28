@@ -41,7 +41,6 @@ public class TabDocumentViewController extends AbstractController {
     private ObservableList<Document> documentList;
     private FilteredList<Document> filteredData;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDate() == null ? new SimpleStringProperty(" "): new SimpleStringProperty(cellData.getValue().getDate().toString()));
