@@ -116,6 +116,7 @@ public class SimpleDay extends BorderPane {
     public void setDate(LocalDate localDate) {
         date = localDate;
         lblDayData.setText(localDate.toString());
+        tasksList.getItems().clear();
         tasksList.setItems(FXCollections.observableArrayList(taskManager.tasks(date)));
         if (localDate.equals(LocalDate.now())) {
             this.setStyle("-fx-background-color: #00cc00"); //#6699ff
