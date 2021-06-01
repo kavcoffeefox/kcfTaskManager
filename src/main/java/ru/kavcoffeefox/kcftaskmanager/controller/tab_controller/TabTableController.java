@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TabTableController extends AbstractController {
-    private final Tooltip tooltip;
+    private final Tooltip  tooltip = new Tooltip(null);
 
     @FXML
     private TextField searchField;
@@ -41,12 +41,12 @@ public class TabTableController extends AbstractController {
 
 
     public TabTableController() {
-        tooltip = new Tooltip(null);
-        tooltip.setWrapText(true);
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tooltip.setWrapText(true);
         taskDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDeadline() != null ?cellData.getValue().getDeadline().toString(): ""));
         taskNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         taskWorkerColumn.setCellValueFactory(cellData -> {
@@ -62,7 +62,7 @@ public class TabTableController extends AbstractController {
             @Override
             protected void updateItem(Task item, boolean empty) {
 
-                taskTableView.setOnMousePressed(event -> {
+                setOnMousePressed(event -> {
 
                     if (taskTableView.getSelectionModel().getSelectedItem() != null) {
                         StringBuilder executors = new StringBuilder();
